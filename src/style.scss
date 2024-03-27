@@ -1,2 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 
+div.card{
+    width: 15rem;
+}
+.card .icon{
+    width: 1rem;
+    height: auto;
+}
