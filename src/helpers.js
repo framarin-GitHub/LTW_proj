@@ -1,8 +1,13 @@
 import delete_icon_src from './icons/recycle-bin.png'
 import edit_icon_src from './icons/edit.png'
+import status_icon_src from './icons/statusicon.svg'
+function deleteAllChildrenById(id_container) {
+    const e = document.getElementById(`${id_container}`)
+    e.innerHTML = "";
+}
 
 const helpers = (() => {
-    //must add classes for bootstrap or pain in the ass
+
     const factoryHtmlElement = (type, id_parent, id_self, class_bs="") => {
         const parent = document.getElementById(`${id_parent}`)
         const ele = document.createElement(`${type}`)
@@ -41,8 +46,44 @@ const helpers = (() => {
         edit_icon.src = edit_icon_src
         edit_icon.setAttribute('class','icon')
         card_edit_button.append(edit_icon)
-        //TO ADD ICONS TO DELETE,MODIFY,STATUS, use class card-link?
+        const card_status_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-status-${index}`,'button isNotDone') 
+        const status_icon = new Image()
+        status_icon.src = status_icon_src
+        status_icon.setAttribute('class','icon')
+        card_status_button.append(status_icon)
     }
-    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard}
+    const factoryForm = (id_parent, id_form) => {
+        deleteAllChildrenById(`${id_parent}`)
+        const form = factoryHtmlElement('form', id_parent, `${id_form}`)
+        form.setAttribute('id',`${id_form}`)
+        const name_lbl = factoryHtmlElement('label',`${id_form}`, 'label', 'INFO1')
+        name_lbl.setAttribute('for','INFO1')
+        const input_name = factoryHtmlElement('input', `${id_form}`, 'INFO1')
+        input_name.setAttribute('type', 'text')
+        input_name.setAttribute('name','INFO1')
+        const description_lbl = factoryHtmlElement('label',`${id_form}`, 'label', 'description')
+
+
+
+        description_lbl.setAttribute('for','description')
+        const input_description = factoryHtmlElement('input', `${id_form}`, 'input')
+        input_description.setAttribute('type', 'text')
+        input_description.setAttribute('name','description')
+        const package_name_lbl = factoryHtmlElement('label',`${id_form}`, 'label', 'package')
+        package_name_lbl.setAttribute('for','package_name')
+        const input_package_name = factoryHtmlElement('input', `${id_form}`, 'input')
+        input_package_name.setAttribute('type', 'text')
+        input_package_name.setAttribute('name','package_name')
+        const due_date_lbl = factoryHtmlElement('label',`${id_form}`, 'label','date')
+        due_date_lbl.setAttribute('for','due_date')
+        const input_due_date = factoryHtmlElement('input', `${id_form}`, 'input')
+        input_due_date.setAttribute('type', 'date')
+        input_due_date.setAttribute('name','due_date')
+        const submit_button = factoryHtmlElement('button', `${id_form}`, 'submit_button', 'submit')
+        submit_button.setAttribute('form',`${id_form}`)
+
+
+    }
+    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryForm}
 })()
 export default helpers

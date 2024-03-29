@@ -1,9 +1,26 @@
 @import "~bootstrap/scss/bootstrap";
-
+#header-nav{
+    min-height: 50px;
+}
+#footer-nav{
+    min-height: 50px;
+}
 div.card{
     width: 15rem;
 }
 .card .icon{
     width: 1rem;
     height: auto;
+}
+.card .button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+//classes for status button
+.isDone {
+    background-color: green;
+}
+.isNotDone {
+    background-color: red; 
 }

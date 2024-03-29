@@ -55,14 +55,26 @@ function headerBuilder(){
     helpers.setTextContentById('header-a-dropdown-3','something else')
 
 }
+function footerBuilder(){
+    const header_nav = helpers.factoryHtmlElement('nav','hook','footer-nav','navbar navbar-expand-lg bg-body-tertiary')
+    const header_ul = helpers.factoryHtmlElement('ul','footer-nav','footer-ul','navbar-nav')
+    const header_li1 = helpers.factoryHtmlElement('li','footer-ul','footer-li-1','nav-item')
+    const header_li2 = helpers.factoryHtmlElement('li','footer-ul','footer-li-2','nav-item')
+    const header_li3 = helpers.factoryHtmlElement('li','footer-ul','footer-li-3','nav-item')
+}
 
 const builder = (()=>{
     const html_build = () => {
         const content_div = helpers.createHookContent();
         headerBuilder();
-        helpers.factoryTaskCard('0','hook','a')
-        helpers.factoryTaskCard('1','hook','a')
-        helpers.factoryTaskCard('2','hook','a')    
+        //this probably becomes another function
+        helpers.factoryHtmlElement('div','hook','central-div-grid')
+        helpers.factoryTaskCard('0','central-div-grid','a')
+        helpers.factoryTaskCard('1','central-div-grid','a')
+        helpers.factoryTaskCard('2','central-div-grid','a')    
+        helpers.factoryForm('card-div-0','blalbla')
+        
+        footerBuilder()
     }
     return {html_build}
 })();
