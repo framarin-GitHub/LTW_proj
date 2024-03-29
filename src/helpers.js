@@ -56,31 +56,38 @@ const helpers = (() => {
         deleteAllChildrenById(`${id_parent}`)
         const form = factoryHtmlElement('form', id_parent, `${id_form}`)
         form.setAttribute('id',`${id_form}`)
-        const name_lbl = factoryHtmlElement('label',`${id_form}`, 'label', 'INFO1')
-        name_lbl.setAttribute('for','INFO1')
-        const input_name = factoryHtmlElement('input', `${id_form}`, 'INFO1')
-        input_name.setAttribute('type', 'text')
-        input_name.setAttribute('name','INFO1')
-        const description_lbl = factoryHtmlElement('label',`${id_form}`, 'label', 'description')
-
-
-
+        
+        const title_lbl = factoryHtmlElement('label',`${id_form}`, `${id_form}-title-lbl`, 'label')
+        title_lbl.setAttribute('for','title')
+        helpers.setTextContentById(`${id_form}-title-lbl`,'title')
+        const input_title = factoryHtmlElement('input', `${id_form}`, `${id_form}-title-input`, 'input')
+        input_title.setAttribute('type', 'text')
+        input_title.setAttribute('name','title')
+        
+        const description_lbl = factoryHtmlElement('label',`${id_form}`, `${id_form}-description-lbl`, 'label')
+        helpers.setTextContentById(`${id_form}-description-lbl`,'description')
         description_lbl.setAttribute('for','description')
-        const input_description = factoryHtmlElement('input', `${id_form}`, 'input')
+        const input_description = factoryHtmlElement('input', `${id_form}`,`${id_form}-description-input`, 'input')
         input_description.setAttribute('type', 'text')
         input_description.setAttribute('name','description')
-        const package_name_lbl = factoryHtmlElement('label',`${id_form}`, 'label', 'package')
-        package_name_lbl.setAttribute('for','package_name')
-        const input_package_name = factoryHtmlElement('input', `${id_form}`, 'input')
-        input_package_name.setAttribute('type', 'text')
-        input_package_name.setAttribute('name','package_name')
-        const due_date_lbl = factoryHtmlElement('label',`${id_form}`, 'label','date')
-        due_date_lbl.setAttribute('for','due_date')
-        const input_due_date = factoryHtmlElement('input', `${id_form}`, 'input')
-        input_due_date.setAttribute('type', 'date')
-        input_due_date.setAttribute('name','due_date')
-        const submit_button = factoryHtmlElement('button', `${id_form}`, 'submit_button', 'submit')
+
+        const group_lbl = factoryHtmlElement('label',`${id_form}`, `${id_form}-group-lbl`, 'label')
+        helpers.setTextContentById(`${id_form}-group-lbl`,'group')
+        group_lbl.setAttribute('for','package_name')
+        const input_group = factoryHtmlElement('input', `${id_form}`, `${id_form}-group-input`, 'input')
+        input_group.setAttribute('type', 'text')
+        input_group.setAttribute('name','group')
+
+        const date_lbl = factoryHtmlElement('label',`${id_form}`, `${id_form}-date-lbl`, 'label')
+        helpers.setTextContentById(`${id_form}-date-lbl`,'date')
+        date_lbl.setAttribute('for','date')
+        const input_date = factoryHtmlElement('input', `${id_form}`, `${id_form}-date-input`, 'input')
+        input_date.setAttribute('type', 'date')
+        input_date.setAttribute('name','date')
+
+        const submit_button = factoryHtmlElement('button', `${id_form}`, `${id_form}-submit-button`, 'submit')
         submit_button.setAttribute('form',`${id_form}`)
+        helpers.setTextContentById(`${id_form}-submit-button`,'done')
 
 
     }

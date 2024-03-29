@@ -5,17 +5,15 @@
 #footer-nav{
     min-height: 50px;
 }
-div.card{
-    width: 15rem;
-}
 .card .icon{
     width: 1rem;
     height: auto;
 }
 .card .button{
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
+}
+form>input{
+    display: block;
 }
 //classes for status button
 .isDone {

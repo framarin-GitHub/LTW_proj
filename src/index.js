@@ -1,5 +1,6 @@
 import './style.scss'
-import builder from './html_build'
 import 'bootstrap'
+import builder from './html_build'
+
 
 builder.html_build()
