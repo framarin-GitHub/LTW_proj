@@ -1,6 +1,7 @@
 import delete_icon_src from './icons/recycle-bin.png'
 import edit_icon_src from './icons/edit.png'
 import status_icon_src from './icons/statusicon.svg'
+
 function deleteAllChildrenById(id_container) {
     const e = document.getElementById(`${id_container}`)
     e.innerHTML = "";
@@ -36,17 +37,17 @@ const helpers = (() => {
         setTextContentById(`card-p-${index}`,'info.description')
         const card_div_date = factoryHtmlElement('p',`card-div-body-${index}`,`card-div-date-${index}`,'card-text')
         setTextContentById(`card-div-date-${index}`,'info.date')
-        const card_delete_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-delete-${index}`,'button') 
+        const card_delete_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-delete-${index}`,'button delete') 
         const delete_icon = new Image();
         delete_icon.src = delete_icon_src
         delete_icon.setAttribute('class','icon')
         card_delete_button.append(delete_icon)
-        const card_edit_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-edit-${index}`,'button') 
+        const card_edit_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-edit-${index}`,'button edit') 
         const edit_icon = new Image()
         edit_icon.src = edit_icon_src
         edit_icon.setAttribute('class','icon')
         card_edit_button.append(edit_icon)
-        const card_status_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-status-${index}`,'button isNotDone') 
+        const card_status_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-status-${index}`,'button status isNotDone') 
         const status_icon = new Image()
         status_icon.src = status_icon_src
         status_icon.setAttribute('class','icon')

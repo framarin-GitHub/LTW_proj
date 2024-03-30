@@ -62,13 +62,26 @@ function footerBuilder(){
     const header_li2 = helpers.factoryHtmlElement('li','footer-ul','footer-li-2','nav-item')
     const header_li3 = helpers.factoryHtmlElement('li','footer-ul','footer-li-3','nav-item')
 }
+function gridClickEventDelegation(e){
+    console.log(e.target.matches(".card .button"))
+    //beware of button>icon
+    if(e.target && e.target.matches(".card .button, .card .icon")){
+        console.log(e.target)
+    }
+}
+
+
 
 const builder = (()=>{
     const html_build = () => {
         const content_div = helpers.createHookContent();
         headerBuilder();
-        //this probably becomes another function
-        helpers.factoryHtmlElement('div','hook','central-div-grid')
+        //refactor in a function to be more readable
+            const central_grid = document.createElement('div')
+            central_grid.setAttribute('id', 'central-div-grid')
+            central_grid.addEventListener('click',gridClickEventDelegation)
+            content_div.append(central_grid)
+        //
         helpers.factoryTaskCard('0','central-div-grid','a')
         helpers.factoryTaskCard('1','central-div-grid','a')
         helpers.factoryTaskCard('2','central-div-grid','a')    
