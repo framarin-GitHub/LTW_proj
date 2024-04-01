@@ -1,5 +1,42 @@
 import helpers from './helpers'
+import task from './task'
 
+function clickEditButton(index){
+    //getElebyid target
+    //killall by id
+    //createForm
+    //retrieve data
+    //add event listener to form
+    //get data
+    //refresh page
+}
+function clickDeleteButton(index){
+    //to save example
+    if (index != 0)
+        task.task_array.splice(index , 1)
+    buildGrid()
+}
+function clickStatusButton(index){
+    task.task_array[index].toggleDone()
+    buildGrid()
+}
+function gridClickEventDelegation(e){
+    if(e.target && e.target.matches(".card .icon")){
+        const target_button = e.target.parentNode
+        let target_id = target_button.id
+        let index = target_id.slice(-1)
+
+        if(target_button.matches(".button.edit")){
+            clickEditButton(index)
+        }
+        if(target_button.matches(".button.delete")){
+            clickDeleteButton(index)
+        }
+        if(target_button.matches(".button.status")){
+            clickStatusButton(index)
+        }
+    }
+}
 function headerBuilder(){
     const header_nav = helpers.factoryHtmlElement('nav','hook','header-nav','navbar navbar-expand-lg bg-body-tertiary')
     const header_div1 = helpers.factoryHtmlElement('div','header-nav','header-div-1','container-fluid')
@@ -55,6 +92,13 @@ function headerBuilder(){
     helpers.setTextContentById('header-a-dropdown-3','something else')
 
 }
+function buildGrid(){
+    helpers.deleteAllChildrenById('central-div-grid')
+    let c = 0
+    for(let t of task.task_array){
+        helpers.factoryTaskCard(c++,t)
+    }
+}
 function footerBuilder(){
     const header_nav = helpers.factoryHtmlElement('nav','hook','footer-nav','navbar navbar-expand-lg bg-body-tertiary')
     const header_ul = helpers.factoryHtmlElement('ul','footer-nav','footer-ul','navbar-nav')
@@ -62,14 +106,6 @@ function footerBuilder(){
     const header_li2 = helpers.factoryHtmlElement('li','footer-ul','footer-li-2','nav-item')
     const header_li3 = helpers.factoryHtmlElement('li','footer-ul','footer-li-3','nav-item')
 }
-function gridClickEventDelegation(e){
-    console.log(e.target.matches(".card .button"))
-    //beware of button>icon
-    if(e.target && e.target.matches(".card .button, .card .icon")){
-        console.log(e.target)
-    }
-}
-
 
 
 const builder = (()=>{
@@ -82,11 +118,9 @@ const builder = (()=>{
             central_grid.addEventListener('click',gridClickEventDelegation)
             content_div.append(central_grid)
         //
-        helpers.factoryTaskCard('0','central-div-grid','a')
-        helpers.factoryTaskCard('1','central-div-grid','a')
-        helpers.factoryTaskCard('2','central-div-grid','a')    
-        helpers.factoryForm('card-div-0','blalbla')
-        
+        let example = new task.Task("title.example","group.example","desc.example desc.example desc.example desc.example","00-00-0000",true)
+        task.task_array.unshift(example)
+        buildGrid()
         footerBuilder()
     }
     return {html_build}
