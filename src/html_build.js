@@ -3,16 +3,17 @@ import task from './task'
 
 function clickEditButton(index){
     //getElebyid target
-    //killall by id
-    //createForm
+    helpers.deleteAllChildrenById(`card-div-${index}`)
+    helpers.factoryTaskForm(`card-div-${index}`,`edit-form-${index}`,task.task_array[index])
+    const submit_button = helpers.factoryHtmlElement('button', `edit-form-${index}`, `edit-form-${index}-submit-button`, 'submit')
+    submit_button.setAttribute('form',`edit-form-${index}`)
+    helpers.setTextContentById(`edit-form-${index}-submit-button`,'done')
     //retrieve data
     //add event listener to form
     //get data
-    //refresh page
 }
 function clickDeleteButton(index){
-    //to save example
-    if (index != 0)
+    if (index != 0)//to save example
         task.task_array.splice(index , 1)
     buildGrid()
 }

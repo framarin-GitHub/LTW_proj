@@ -50,7 +50,7 @@ const helpers = (() => {
         status_icon.setAttribute('class','icon')
         card_status_button.append(status_icon)
     }
-    const factoryForm = (id_parent, id_form) => {
+    const factoryTaskForm = (id_parent, id_form, task) => {
         deleteAllChildrenById(`${id_parent}`)
         const form = factoryHtmlElement('form', id_parent, `${id_form}`)
         form.setAttribute('id',`${id_form}`)
@@ -83,9 +83,14 @@ const helpers = (() => {
         input_date.setAttribute('type', 'date')
         input_date.setAttribute('name','date')
 
-        const submit_button = factoryHtmlElement('button', `${id_form}`, `${id_form}-submit-button`, 'submit')
-        submit_button.setAttribute('form',`${id_form}`)
-        helpers.setTextContentById(`${id_form}-submit-button`,'done')
+        if(task != null) {   
+            let date_split = task.date.split('/')
+            let date_input = `${date_split[2]}-${date_split[1]}-${date_split[0]}`
+            input_date.setAttribute('value', `${date_input}`)
+            input_group.setAttribute('value', `${task.group}`)
+            input_description.setAttribute('value', `${task.description}`)
+            input_title.setAttribute('value', `${task.title}`)
+        }
 
 
     }
@@ -93,6 +98,6 @@ const helpers = (() => {
         const e = document.getElementById(`${id_container}`)
         e.innerHTML = "";
     }
-    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryForm,deleteAllChildrenById}
+    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryTaskForm,deleteAllChildrenById}
 })()
 export default helpers
