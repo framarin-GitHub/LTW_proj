@@ -1,17 +1,46 @@
 import helpers from './helpers'
 import task from './task'
+import {format, isToday, parseISO} from "date-fns";
 
 function clickEditButton(index){
-    //getElebyid target
     helpers.deleteAllChildrenById(`card-div-${index}`)
-    helpers.factoryTaskForm(`card-div-${index}`,`edit-form-${index}`,task.task_array[index])
-    const submit_button = helpers.factoryHtmlElement('button', `edit-form-${index}`, `edit-form-${index}-submit-button`, 'submit')
+    const edit_form = helpers.factoryTaskForm(`card-div-${index}`,`edit-form-${index}`,task.task_array[index])
+    const submit_button = document.createElement('button')
+    submit_button.setAttribute('id', `edit-button-form-${index}`)
+    submit_button.setAttribute('class', `btn submit`)    
     submit_button.setAttribute('form',`edit-form-${index}`)
-    helpers.setTextContentById(`edit-form-${index}-submit-button`,'done')
-    //retrieve data
-    //add event listener to form
-    //get data
+    submit_button.addEventListener('click', clickListenerEditTask)
+    edit_form.append(submit_button)
+    helpers.setTextContentById(`edit-button-form-${index}`,'done')
 }
+function clickListenerEditTask(e){
+    let index = e.target.id.slice(-1)
+    const form = document.getElementById(`edit-form-${index}`)
+    const form_data = new FormData(form)
+    let title,group,description,date;
+    for (let x of form_data){
+        if (x[0] === "title")
+            title = x[1]
+        if (x[0] === "group")
+            group = x[1]
+        if (x[0] === "description")
+            description = x[1]
+        if (x[0] === "date") {
+            let splittedDate = x[1].split('-')
+            if(x[1] === '') {
+                splittedDate = ['1901','01','01']
+            }
+            date = format(new Date(splittedDate[0], (splittedDate[1]-1), splittedDate[2]), 'dd/MM/yyyy')
+        }
+    }
+    const to_add_task = new task.Task(title, group, description, date, false)
+    if(index === '0')
+        task.task_array.push(to_add_task)
+    else
+        task.task_array[index] = to_add_task
+    buildGrid()
+}
+
 function clickDeleteButton(index){
     if (index != 0)//to save example
         task.task_array.splice(index , 1)

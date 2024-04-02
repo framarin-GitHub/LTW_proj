@@ -52,8 +52,12 @@ const helpers = (() => {
     }
     const factoryTaskForm = (id_parent, id_form, task) => {
         deleteAllChildrenById(`${id_parent}`)
-        const form = factoryHtmlElement('form', id_parent, `${id_form}`)
-        form.setAttribute('id',`${id_form}`)
+        const form = document.createElement('form')
+        const parent = document.getElementById(`${id_parent}`)
+        form.setAttribute('id', `${id_form}`)
+        form.addEventListener('submit', (e)=>{e.preventDefault()})
+        parent.append(form)
+
         
         const title_lbl = factoryHtmlElement('label',`${id_form}`, `${id_form}-title-lbl`, 'label')
         title_lbl.setAttribute('for','title')
@@ -83,16 +87,17 @@ const helpers = (() => {
         input_date.setAttribute('type', 'date')
         input_date.setAttribute('name','date')
 
-        if(task != null) {   
-            let date_split = task.date.split('/')
-            let date_input = `${date_split[2]}-${date_split[1]}-${date_split[0]}`
-            input_date.setAttribute('value', `${date_input}`)
+        if(task != null) {  
+            if(task.date != null ) {
+                let date_split = task.date.split('/')
+                let date_input = `${date_split[2]}-${date_split[1]}-${date_split[0]}`
+                input_date.setAttribute('value', `${date_input}`)
+            }
             input_group.setAttribute('value', `${task.group}`)
             input_description.setAttribute('value', `${task.description}`)
             input_title.setAttribute('value', `${task.title}`)
         }
-
-
+        return form
     }
     const deleteAllChildrenById = (id_container) => {
         const e = document.getElementById(`${id_container}`)
