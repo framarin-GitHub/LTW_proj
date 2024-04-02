@@ -25,7 +25,7 @@ const helpers = (() => {
         return content_div
     }
     const factoryTaskCard = (index,task) => {
-        const card_div = factoryHtmlElement('div','central-div-grid',`card-div-${index}`,'card')
+        const card_div = factoryHtmlElement('div','central-div-grid',`card-div-${index}`,'card text-center')
         const card_div_body = factoryHtmlElement('div',`card-div-${index}`,`card-div-body-${index}`,'card-body')
         const card_div_title = factoryHtmlElement('h5',`card-div-body-${index}`,`card-div-title-${index}`,'card-title')
         setTextContentById(`card-div-title-${index}`,`${task.title}`)
@@ -58,32 +58,35 @@ const helpers = (() => {
         form.addEventListener('submit', (e)=>{e.preventDefault()})
         parent.append(form)
 
-        
-        const title_lbl = factoryHtmlElement('label',`${id_form}`, `${id_form}-title-lbl`, 'label')
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-title-div`, 'form-group')
+        const title_lbl = factoryHtmlElement('label', `${id_form}-title-div`, `${id_form}-title-lbl`, 'label')
         title_lbl.setAttribute('for','title')
         helpers.setTextContentById(`${id_form}-title-lbl`,'title')
-        const input_title = factoryHtmlElement('input', `${id_form}`, `${id_form}-title-input`, 'input')
+        const input_title = factoryHtmlElement('input', `${id_form}-title-div`, `${id_form}-title-input`, 'input')
         input_title.setAttribute('type', 'text')
         input_title.setAttribute('name','title')
         
-        const description_lbl = factoryHtmlElement('label',`${id_form}`, `${id_form}-description-lbl`, 'label')
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-desc-div`, 'form-group')
+        const description_lbl = factoryHtmlElement('label', `${id_form}-desc-div`, `${id_form}-description-lbl`, 'label')
         helpers.setTextContentById(`${id_form}-description-lbl`,'description')
         description_lbl.setAttribute('for','description')
-        const input_description = factoryHtmlElement('input', `${id_form}`,`${id_form}-description-input`, 'input')
+        const input_description = factoryHtmlElement('input', `${id_form}-desc-div`,`${id_form}-description-input`, 'input')
         input_description.setAttribute('type', 'text')
         input_description.setAttribute('name','description')
 
-        const group_lbl = factoryHtmlElement('label',`${id_form}`, `${id_form}-group-lbl`, 'label')
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-group')
+        const group_lbl = factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-group-lbl`, 'label')
         helpers.setTextContentById(`${id_form}-group-lbl`,'group')
         group_lbl.setAttribute('for','package_name')
-        const input_group = factoryHtmlElement('input', `${id_form}`, `${id_form}-group-input`, 'input')
+        const input_group = factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-group-input`, 'input')
         input_group.setAttribute('type', 'text')
         input_group.setAttribute('name','group')
 
-        const date_lbl = factoryHtmlElement('label',`${id_form}`, `${id_form}-date-lbl`, 'label')
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-group')
+        const date_lbl = factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-date-lbl`, 'label')
         helpers.setTextContentById(`${id_form}-date-lbl`,'date')
         date_lbl.setAttribute('for','date')
-        const input_date = factoryHtmlElement('input', `${id_form}`, `${id_form}-date-input`, 'input')
+        const input_date = factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-date-input`, 'input')
         input_date.setAttribute('type', 'date')
         input_date.setAttribute('name','date')
 

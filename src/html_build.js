@@ -7,7 +7,7 @@ function clickEditButton(index){
     const edit_form = helpers.factoryTaskForm(`card-div-${index}`,`edit-form-${index}`,task.task_array[index])
     const submit_button = document.createElement('button')
     submit_button.setAttribute('id', `edit-button-form-${index}`)
-    submit_button.setAttribute('class', `btn submit`)    
+    submit_button.setAttribute('class', `btn btn-primary submit`)    
     submit_button.setAttribute('form',`edit-form-${index}`)
     submit_button.addEventListener('click', clickListenerEditTask)
     edit_form.append(submit_button)
@@ -67,8 +67,15 @@ function gridClickEventDelegation(e){
         }
     }
 }
+function headerClickEventDelegation(){}
 function headerBuilder(){
-    const header_nav = helpers.factoryHtmlElement('nav','hook','header-nav','navbar navbar-expand-lg bg-body-tertiary')
+    const parent = document.getElementById('hook')
+    const header_nav = document.createElement('nav')
+    header_nav.setAttribute('id', 'header-nav')
+    header_nav.setAttribute('class', 'navbar navbar-expand-lg navbar-dark bg-dark')
+    header_nav.addEventListener('click', headerClickEventDelegation)
+    parent.append(header_nav)
+    
     const header_div1 = helpers.factoryHtmlElement('div','header-nav','header-div-1','container-fluid')
     const header_a = helpers.factoryHtmlElement('a','header-div-1','header-a','navbar-brand')
     header_a.setAttribute('href','#')
@@ -121,6 +128,12 @@ function headerBuilder(){
     helpers.setTextContentById('header-a-dropdown-2','some other text')
     helpers.setTextContentById('header-a-dropdown-3','something else')
 
+    const header_li5 = helpers.factoryHtmlElement('li','header-ul','header-li-5','nav-item')
+    const header_sign_in = helpers.factoryHtmlElement('button', 'header-li-5', 'header-sign-in', 'btn btn-outline-light')
+    helpers.setTextContentById('header-sign-in','sign in')
+    const header_sign_up = helpers.factoryHtmlElement('button', 'header-li-5', 'header-sign-up', 'btn btn-dark')
+    helpers.setTextContentById('header-sign-up','sign up')
+
 }
 function buildGrid(){
     helpers.deleteAllChildrenById('central-div-grid')
@@ -130,7 +143,7 @@ function buildGrid(){
     }
 }
 function footerBuilder(){
-    const header_nav = helpers.factoryHtmlElement('nav','hook','footer-nav','navbar navbar-expand-lg bg-body-tertiary')
+    const header_nav = helpers.factoryHtmlElement('nav','hook','footer-nav','navbar navbar-expand-lg navbar-dark bg-dark')
     const header_ul = helpers.factoryHtmlElement('ul','footer-nav','footer-ul','navbar-nav')
     const header_li1 = helpers.factoryHtmlElement('li','footer-ul','footer-li-1','nav-item')
     const header_li2 = helpers.factoryHtmlElement('li','footer-ul','footer-li-2','nav-item')

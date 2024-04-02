@@ -1,9 +1,24 @@
 @import "~bootstrap/scss/bootstrap";
+#hook {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 #header-nav{
     min-height: 50px;
 }
+#header-li-5{
+    align-self: end;
+}
+#central-div-grid{
+    min-height: 50px;
+    flex: 1;
+}
 #footer-nav{
     min-height: 50px;
+}
+.card{
+    width: 18rem;
 }
 .card .icon{
     width: 2rem;
