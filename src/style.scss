@@ -7,8 +7,12 @@
 #header-nav{
     min-height: 50px;
 }
-#header-li-5{
-    align-self: end;
+#header-ul{
+    width: 100%;
+}
+#header-div-2{
+    width: fit-content;
+    flex: 0 0 auto;
 }
 #central-div-grid{
     min-height: 50px;

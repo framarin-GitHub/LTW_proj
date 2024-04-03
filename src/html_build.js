@@ -34,16 +34,35 @@ function clickListenerEditTask(e){
         }
     }
     const to_add_task = new task.Task(title, group, description, date, false)
-    if(index === '0')
-        task.task_array.push(to_add_task)
-    else
-        task.task_array[index] = to_add_task
+    task.task_array[index] = to_add_task
     buildGrid()
 }
-
+function clickListenerCreateTask(e){
+    let index = task.task_array.length
+    const form = document.getElementById('create-new-task-form')
+    const form_data = new FormData(form)
+    let title,group,description,date;
+    for (let x of form_data){
+        if (x[0] === "title")
+            title = x[1]
+        if (x[0] === "group")
+            group = x[1]
+        if (x[0] === "description")
+            description = x[1]
+        if (x[0] === "date") {
+            let splittedDate = x[1].split('-')
+            if(x[1] === '') {
+                splittedDate = ['1901','01','01']
+            }
+            date = format(new Date(splittedDate[0], (splittedDate[1]-1), splittedDate[2]), 'dd/MM/yyyy')
+        }
+    }
+    const to_add_task = new task.Task(title, group, description, date, false)
+    task.task_array.push(to_add_task)
+    buildGrid()
+}
 function clickDeleteButton(index){
-    if (index != 0)//to save example
-        task.task_array.splice(index , 1)
+    task.task_array.splice(index , 1)
     buildGrid()
 }
 function clickStatusButton(index){
@@ -67,7 +86,20 @@ function gridClickEventDelegation(e){
         }
     }
 }
-function headerClickEventDelegation(){}
+function headerClickEventDelegation(e){
+    if(e.target){
+        if(e.target.matches("#header-li-3,#header-list-a-3")){
+            const create_new_task_form = helpers.factoryTaskForm('central-div-grid','create-new-task-form',null)
+            const submit_button = document.createElement('button')
+            submit_button.setAttribute('id', 'create-new-button-form')
+            submit_button.setAttribute('class', `btn btn-primary submit`)    
+            submit_button.setAttribute('form',`create-new-task-form`)
+            submit_button.addEventListener('click', clickListenerCreateTask)
+            create_new_task_form.append(submit_button)
+            helpers.setTextContentById('create-new-button-form','done')
+        }
+    }
+}
 function headerBuilder(){
     const parent = document.getElementById('hook')
     const header_nav = document.createElement('nav')
@@ -80,17 +112,16 @@ function headerBuilder(){
     const header_a = helpers.factoryHtmlElement('a','header-div-1','header-a','navbar-brand')
     header_a.setAttribute('href','#')
     helpers.setTextContentById('header-a','TITLEGOESHERE')
-    
     const header_button = helpers.factoryHtmlElement('button','header-div-1','header-button','navbar-toggler')
     header_button.setAttribute('type','button')
     header_button.setAttribute('data-bs-toggle','collapse')
-    header_button.setAttribute('data-bs-targeet','#navbarNavDropdown')
+    header_button.setAttribute('data-bs-target','#navbarNavDropdown')
     header_button.setAttribute('aria-controls','navbarNavDropdown')
     header_button.setAttribute('aria-expanded','false')
     header_button.setAttribute('aria-label','Toggle navigation')
     const header_span = helpers.factoryHtmlElement('span','header-button','header-span','navbar-toggler-icon')
+        
     const header_div_navbarNavDropdown = helpers.factoryHtmlElement('div','header-div-1','navbarNavDropdown','collapse navbar-collapse')
-
     const header_ul = helpers.factoryHtmlElement('ul','navbarNavDropdown','header-ul','navbar-nav')
     const header_li1 = helpers.factoryHtmlElement('li','header-ul','header-li-1','nav-item')
     const header_li2 = helpers.factoryHtmlElement('li','header-ul','header-li-2','nav-item')
@@ -106,7 +137,7 @@ function headerBuilder(){
     header_list_a2.setAttribute('href','#')
     helpers.setTextContentById('header-list-a-2','Features')
     header_list_a3.setAttribute('href','#')
-    helpers.setTextContentById('header-list-a-3','bhooo')
+    helpers.setTextContentById('header-list-a-3','NEW')
     
     const header_list_a4 = helpers.factoryHtmlElement('a','header-li-4','header-list-a-4','nav-link dropdown-toggle')
     header_list_a4.setAttribute('href','#')
@@ -128,16 +159,17 @@ function headerBuilder(){
     helpers.setTextContentById('header-a-dropdown-2','some other text')
     helpers.setTextContentById('header-a-dropdown-3','something else')
 
-    const header_li5 = helpers.factoryHtmlElement('li','header-ul','header-li-5','nav-item')
-    const header_sign_in = helpers.factoryHtmlElement('button', 'header-li-5', 'header-sign-in', 'btn btn-outline-light')
+    const header_div2 = helpers.factoryHtmlElement('div','header-nav','header-div-2','container-fluid')
+    const header_sign_in = helpers.factoryHtmlElement('button', 'header-div-2', 'header-sign-in', 'btn btn-outline-light')
     helpers.setTextContentById('header-sign-in','sign in')
-    const header_sign_up = helpers.factoryHtmlElement('button', 'header-li-5', 'header-sign-up', 'btn btn-dark')
+    const header_sign_up = helpers.factoryHtmlElement('button', 'header-div-2', 'header-sign-up', 'btn btn-dark')
     helpers.setTextContentById('header-sign-up','sign up')
 
 }
 function buildGrid(){
     helpers.deleteAllChildrenById('central-div-grid')
     let c = 0
+    //we can sort in various way, maybe from nearest to furthest
     for(let t of task.task_array){
         helpers.factoryTaskCard(c++,t)
     }
