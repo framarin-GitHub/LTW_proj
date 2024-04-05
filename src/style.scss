@@ -16,13 +16,18 @@
 }
 #central-div-grid{
     min-height: 50px;
+    max-height: max-content;
     flex: 1;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: auto auto auto auto;
 }
 #footer-nav{
     min-height: 50px;
 }
 .card{
     width: 18rem;
+    height: 18rem;
 }
 .card .icon{
     width: 2rem;

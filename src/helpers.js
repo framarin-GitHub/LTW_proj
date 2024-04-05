@@ -1,6 +1,7 @@
 import delete_icon_src from './icons/recycle-bin.png'
 import edit_icon_src from './icons/edit.png'
 import status_icon_src from './icons/statusicon.svg'
+import task_import from './task'
 
 
 
@@ -74,21 +75,27 @@ const helpers = (() => {
         input_description.setAttribute('type', 'text')
         input_description.setAttribute('name','description')
 
-        factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-group')
-        const group_lbl = factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-group-lbl`, 'label')
-        helpers.setTextContentById(`${id_form}-group-lbl`,'group')
-        group_lbl.setAttribute('for','package_name')
-        const input_group = factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-group-input`, 'input')
-        input_group.setAttribute('type', 'text')
-        input_group.setAttribute('name','group')
-
-        factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-group')
-        const date_lbl = factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-date-lbl`, 'label')
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-date-div`, 'form-group')
+        const date_lbl = factoryHtmlElement('label', `${id_form}-date-div`, `${id_form}-date-lbl`, 'label')
         helpers.setTextContentById(`${id_form}-date-lbl`,'date')
         date_lbl.setAttribute('for','date')
-        const input_date = factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-date-input`, 'input')
+        const input_date = factoryHtmlElement('input', `${id_form}-date-div`, `${id_form}-date-input`, 'input')
         input_date.setAttribute('type', 'date')
         input_date.setAttribute('name','date')
+
+        const group_select = factoryHtmlElement('select',`${id_form}`, `${id_form}-select`)
+        const default_option = factoryHtmlElement('option', `${id_form}-select`, `${id_form}-option-default`)
+        default_option.setAttribute('selected',true)
+        default_option.setAttribute('value','')
+        setTextContentById(`${id_form}-option-default`, 'select a group')
+        
+        let counter = 0
+        for(let x of task_import.group_array){
+            const option = factoryHtmlElement('option', `${id_form}-select`, `${id_form}-option-${counter}`)
+            option.setAttribute('value',`${x}`)
+            setTextContentById(`${id_form}-option-${counter}`, `${x}`)
+            counter++
+        }
 
         if(task != null) {  
             if(task.date != null ) {
@@ -102,10 +109,28 @@ const helpers = (() => {
         }
         return form
     }
+    const createGroupForm = (id_parent, id_form) => {
+        deleteAllChildrenById(`${id_parent}`)
+        const form = document.createElement('form')
+        const parent = document.getElementById(`${id_parent}`)
+        form.setAttribute('id', `${id_form}`)
+        form.addEventListener('submit', (e)=>{e.preventDefault()})
+        parent.append(form)
+
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-group')
+        const title_lbl = factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-group-lbl`, 'label')
+        title_lbl.setAttribute('for','group')
+        helpers.setTextContentById(`${id_form}-group-lbl`,'group')
+        const input_title = factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-group-input`, 'input')
+        input_title.setAttribute('type', 'text')
+        input_title.setAttribute('name','group')
+        
+        return form
+    }
     const deleteAllChildrenById = (id_container) => {
         const e = document.getElementById(`${id_container}`)
         e.innerHTML = "";
     }
-    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryTaskForm,deleteAllChildrenById}
+    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryTaskForm,createGroupForm,deleteAllChildrenById}
 })()
 export default helpers

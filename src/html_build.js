@@ -45,10 +45,10 @@ function clickListenerCreateTask(e){
     for (let x of form_data){
         if (x[0] === "title")
             title = x[1]
-        if (x[0] === "group")
-            group = x[1]
         if (x[0] === "description")
             description = x[1]
+        if (x[0] === "group")
+            group = x[1]
         if (x[0] === "date") {
             let splittedDate = x[1].split('-')
             if(x[1] === '') {
@@ -59,6 +59,17 @@ function clickListenerCreateTask(e){
     }
     const to_add_task = new task.Task(title, group, description, date, false)
     task.task_array.push(to_add_task)
+    buildGrid()
+}
+function clickListenerCreateGroup(e){
+    const form = document.getElementById('create-group-form')
+    const form_data = new FormData(form)
+    for(let x of form_data){
+        if (x[0] === "group"){
+            task.group_array.unshift(`${x[1]}`)
+        }
+    }
+    buildDropdown()
     buildGrid()
 }
 function clickDeleteButton(index){
@@ -88,6 +99,19 @@ function gridClickEventDelegation(e){
 }
 function headerClickEventDelegation(e){
     if(e.target){
+        if(e.target.matches("#header-li-1,#header-list-a-1")){
+            buildGrid()
+        }
+        if(e.target.matches("#header-li-2,#header-list-a-2")){
+            const create_group_form = helpers.createGroupForm('central-div-grid','create-group-form')
+            const submit_button = document.createElement('button')
+            submit_button.setAttribute('id', 'create-group-button-form')
+            submit_button.setAttribute('class', `btn btn-primary submit`)    
+            submit_button.setAttribute('form',`create-group-form`)
+            submit_button.addEventListener('click', clickListenerCreateGroup)
+            create_group_form.append(submit_button)
+            helpers.setTextContentById('create-group-button-form','done')
+        }
         if(e.target.matches("#header-li-3,#header-list-a-3")){
             const create_new_task_form = helpers.factoryTaskForm('central-div-grid','create-new-task-form',null)
             const submit_button = document.createElement('button')
@@ -135,29 +159,17 @@ function headerBuilder(){
     header_list_a1.setAttribute('href','#')
     helpers.setTextContentById('header-list-a-1','Home')
     header_list_a2.setAttribute('href','#')
-    helpers.setTextContentById('header-list-a-2','Features')
+    helpers.setTextContentById('header-list-a-2','Create group')
     header_list_a3.setAttribute('href','#')
-    helpers.setTextContentById('header-list-a-3','NEW')
+    helpers.setTextContentById('header-list-a-3','Add Event')
     
     const header_list_a4 = helpers.factoryHtmlElement('a','header-li-4','header-list-a-4','nav-link dropdown-toggle')
     header_list_a4.setAttribute('href','#')
     header_list_a4.setAttribute('role','button')
     header_list_a4.setAttribute('data-bs-toggle','dropdown')
     header_list_a4.setAttribute('aria-expanded','false')
-    helpers.setTextContentById('header-list-a-4','dropdown link')
+    helpers.setTextContentById('header-list-a-4','Groups')
     const header_ul_dropdown = helpers.factoryHtmlElement('ul','header-li-4','header-ul-dropdown','dropdown-menu')
-    const header_li_dropdown1 = helpers.factoryHtmlElement('li','header-ul-dropdown','header-li-dropdown-1')
-    const header_li_dropdown2 = helpers.factoryHtmlElement('li','header-ul-dropdown','header-li-dropdown-2')
-    const header_li_dropdown3 = helpers.factoryHtmlElement('li','header-ul-dropdown','header-li-dropdown-3')
-    const header_a_dropdown1 = helpers.factoryHtmlElement('a','header-li-dropdown-1','header-a-dropdown-1','dropdown-item')
-    const header_a_dropdown2 = helpers.factoryHtmlElement('a','header-li-dropdown-2','header-a-dropdown-2','dropdown-item')
-    const header_a_dropdown3 = helpers.factoryHtmlElement('a','header-li-dropdown-3','header-a-dropdown-3','dropdown-item')
-    header_a_dropdown1.setAttribute('href','#')
-    header_a_dropdown2.setAttribute('href','#')
-    header_a_dropdown3.setAttribute('href','#')
-    helpers.setTextContentById('header-a-dropdown-1','some text')
-    helpers.setTextContentById('header-a-dropdown-2','some other text')
-    helpers.setTextContentById('header-a-dropdown-3','something else')
 
     const header_div2 = helpers.factoryHtmlElement('div','header-nav','header-div-2','container-fluid')
     const header_sign_in = helpers.factoryHtmlElement('button', 'header-div-2', 'header-sign-in', 'btn btn-outline-light')
@@ -181,7 +193,15 @@ function footerBuilder(){
     const header_li2 = helpers.factoryHtmlElement('li','footer-ul','footer-li-2','nav-item')
     const header_li3 = helpers.factoryHtmlElement('li','footer-ul','footer-li-3','nav-item')
 }
-
+function buildDropdown(){
+    let counter = 0
+    for(let x of task.group_array){
+        const header_li_dropdown = helpers.factoryHtmlElement('li','header-ul-dropdown',`header-li-dropdown-${counter}`)
+        const header_a_dropdown = helpers.factoryHtmlElement('a',`header-li-dropdown-${counter}`,`header-a-dropdown-${counter}`,'dropdown-item')
+        helpers.setTextContentById(`header-a-dropdown-${counter}`,`${x}`)
+        counter++
+    }
+}
 
 const builder = (()=>{
     const html_build = () => {

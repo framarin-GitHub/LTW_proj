@@ -14,6 +14,7 @@ const task = (() => {
         }
     }
     let task_array = []
-    return {task_array,Task}
+    let group_array = []
+    return {task_array, group_array, Task}
 })()
 export default task
