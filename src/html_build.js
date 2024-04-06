@@ -17,7 +17,10 @@ function clickListenerEditTask(e){
     let index = e.target.id.slice(-1)
     const form = document.getElementById(`edit-form-${index}`)
     const form_data = new FormData(form)
+
     let title,group,description,date;
+    const select = document.getElementById(`edit-form-${index}-select`)
+    group = select.value
     for (let x of form_data){
         if (x[0] === "title")
             title = x[1]
@@ -35,20 +38,23 @@ function clickListenerEditTask(e){
     }
     const to_add_task = new task.Task(title, group, description, date, false)
     task.task_array[index] = to_add_task
-    buildGrid()
+    buildGrid(task.task_array)
 }
 function clickListenerCreateTask(e){
     let index = task.task_array.length
     const form = document.getElementById('create-new-task-form')
     const form_data = new FormData(form)
     let title,group,description,date;
+    const select = document.getElementById('create-new-task-form-select')
+    group = select.value
     for (let x of form_data){
         if (x[0] === "title")
             title = x[1]
         if (x[0] === "description")
             description = x[1]
-        if (x[0] === "group")
+        if (x[0] === "group"){
             group = x[1]
+        }
         if (x[0] === "date") {
             let splittedDate = x[1].split('-')
             if(x[1] === '') {
@@ -59,26 +65,27 @@ function clickListenerCreateTask(e){
     }
     const to_add_task = new task.Task(title, group, description, date, false)
     task.task_array.push(to_add_task)
-    buildGrid()
+    buildGrid(task.task_array)
 }
 function clickListenerCreateGroup(e){
     const form = document.getElementById('create-group-form')
     const form_data = new FormData(form)
     for(let x of form_data){
-        if (x[0] === "group"){
+        if (x[0] === "group" && x[1] != ''){
             task.group_array.unshift(`${x[1]}`)
         }
     }
+    helpers.deleteAllChildrenById('header-ul-dropdown')
     buildDropdown()
-    buildGrid()
+    buildGrid(task.task_array)
 }
 function clickDeleteButton(index){
     task.task_array.splice(index , 1)
-    buildGrid()
+    buildGrid(task.task_array)
 }
 function clickStatusButton(index){
     task.task_array[index].toggleDone()
-    buildGrid()
+    buildGrid(task.task_array)
 }
 function gridClickEventDelegation(e){
     if(e.target && e.target.matches(".card .icon")){
@@ -100,7 +107,7 @@ function gridClickEventDelegation(e){
 function headerClickEventDelegation(e){
     if(e.target){
         if(e.target.matches("#header-li-1,#header-list-a-1")){
-            buildGrid()
+            buildGrid(task.task_array)
         }
         if(e.target.matches("#header-li-2,#header-list-a-2")){
             const create_group_form = helpers.createGroupForm('central-div-grid','create-group-form')
@@ -122,6 +129,13 @@ function headerClickEventDelegation(e){
             create_new_task_form.append(submit_button)
             helpers.setTextContentById('create-new-button-form','done')
         }
+        if(e.target.matches("#header-ul-dropdown a")){
+            let target_id = e.target.id.slice(-1)
+            let selected_group = task.group_array[target_id]
+            console.log(task.task_array) 
+            let array_filtered = task.task_array.filter((t) => t.group === `${selected_group}`)
+            buildGrid(array_filtered)
+        }
     }
 }
 function headerBuilder(){
@@ -135,7 +149,7 @@ function headerBuilder(){
     const header_div1 = helpers.factoryHtmlElement('div','header-nav','header-div-1','container-fluid')
     const header_a = helpers.factoryHtmlElement('a','header-div-1','header-a','navbar-brand')
     header_a.setAttribute('href','#')
-    helpers.setTextContentById('header-a','TITLEGOESHERE')
+    helpers.setTextContentById('header-a','PLAN YOUT MEETINGS')
     const header_button = helpers.factoryHtmlElement('button','header-div-1','header-button','navbar-toggler')
     header_button.setAttribute('type','button')
     header_button.setAttribute('data-bs-toggle','collapse')
@@ -178,11 +192,11 @@ function headerBuilder(){
     helpers.setTextContentById('header-sign-up','sign up')
 
 }
-function buildGrid(){
+function buildGrid(task_array_to_build){
     helpers.deleteAllChildrenById('central-div-grid')
     let c = 0
     //we can sort in various way, maybe from nearest to furthest
-    for(let t of task.task_array){
+    for(let t of task_array_to_build){
         helpers.factoryTaskCard(c++,t)
     }
 }
@@ -215,7 +229,7 @@ const builder = (()=>{
         //
         let example = new task.Task("title.example","group.example","desc.example desc.example desc.example desc.example","00-00-0000",true)
         task.task_array.unshift(example)
-        buildGrid()
+        buildGrid(task.task_array)
         footerBuilder()
     }
     return {html_build}

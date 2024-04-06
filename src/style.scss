@@ -6,6 +6,10 @@
 }
 #header-nav{
     min-height: 50px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
 }
 #header-ul{
     width: 100%;
@@ -16,11 +20,10 @@
 }
 #central-div-grid{
     min-height: 50px;
-    max-height: max-content;
     flex: 1;
     display: grid;
-    gap: 1rem;
-    grid-template-columns: auto auto auto auto;
+    gap: 20px;
+    grid-template-columns: repeat(5,auto);
 }
 #footer-nav{
     min-height: 50px;
@@ -34,6 +37,7 @@
     height: auto;
 }
 .card .button{
+    margin-top: auto;
     display: inline-flex;
     padding: 0;
 }

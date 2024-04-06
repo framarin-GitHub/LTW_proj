@@ -34,17 +34,17 @@ const helpers = (() => {
         setTextContentById(`card-p-${index}`,`${task.description}`)
         const card_div_date = factoryHtmlElement('p',`card-div-body-${index}`,`card-div-date-${index}`,'card-text')
         setTextContentById(`card-div-date-${index}`,`${task.date}`)
-        const card_delete_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-delete-${index}`,'button delete') 
+        const card_delete_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-delete-${index}`,'btn button delete') 
         const delete_icon = new Image();
         delete_icon.src = delete_icon_src
         delete_icon.setAttribute('class','icon')
         card_delete_button.append(delete_icon)
-        const card_edit_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-edit-${index}`,'button edit') 
+        const card_edit_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-edit-${index}`,'btn button edit') 
         const edit_icon = new Image()
         edit_icon.src = edit_icon_src
         edit_icon.setAttribute('class','icon')
         card_edit_button.append(edit_icon)
-        const card_status_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-status-${index}`,'button status')
+        const card_status_button = factoryHtmlElement('button',`card-div-body-${index}`,`card-status-${index}`,'btn button status')
         card_status_button.classList.add((task.is_done)?'isDone':'isNotDone')
         const status_icon = new Image()
         status_icon.src = status_icon_src
@@ -103,7 +103,6 @@ const helpers = (() => {
                 let date_input = `${date_split[2]}-${date_split[1]}-${date_split[0]}`
                 input_date.setAttribute('value', `${date_input}`)
             }
-            input_group.setAttribute('value', `${task.group}`)
             input_description.setAttribute('value', `${task.description}`)
             input_title.setAttribute('value', `${task.title}`)
         }
