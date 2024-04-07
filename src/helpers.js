@@ -58,6 +58,8 @@ const helpers = (() => {
         form.setAttribute('id', `${id_form}`)
         form.addEventListener('submit', (e)=>{e.preventDefault()})
         parent.append(form)
+        form.classList.add('form')
+
 
         factoryHtmlElement('div', `${id_form}`, `${id_form}-title-div`, 'form-group')
         const title_lbl = factoryHtmlElement('label', `${id_form}-title-div`, `${id_form}-title-lbl`, 'label')
@@ -115,6 +117,7 @@ const helpers = (() => {
         form.setAttribute('id', `${id_form}`)
         form.addEventListener('submit', (e)=>{e.preventDefault()})
         parent.append(form)
+        form.classList.add('form')
 
         factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-group')
         const title_lbl = factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-group-lbl`, 'label')

@@ -20,13 +20,14 @@
 }
 #central-div-grid{
     min-height: 50px;
-    flex: 1;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(5,auto);
+    display: flex;
+    flex-wrap: wrap;
 }
 #footer-nav{
     min-height: 50px;
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
 }
 .card{
     width: 18rem;
@@ -41,7 +42,17 @@
     display: inline-flex;
     padding: 0;
 }
-form>input{
+.card .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    align-items: center;
+}
+.card .form .submit {
+    margin-top: auto;
+}
+.card .form .label{
     display: block;
 }
 //classes for status button
