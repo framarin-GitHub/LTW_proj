@@ -1,7 +1,7 @@
 import delete_icon_src from './icons/recycle-bin.png'
 import edit_icon_src from './icons/edit.png'
 import status_icon_src from './icons/statusicon.svg'
-import task_import from './task'
+import classes from './classes'
 
 
 
@@ -92,10 +92,10 @@ const helpers = (() => {
         setTextContentById(`${id_form}-option-default`, 'select a group')
         
         let counter = 0
-        for(let x of task_import.group_array){
+        for(let x of classes.group_array){
             const option = factoryHtmlElement('option', `${id_form}-select`, `${id_form}-option-${counter}`)
-            option.setAttribute('value',`${x}`)
-            setTextContentById(`${id_form}-option-${counter}`, `${x}`)
+            option.setAttribute('value',`${x.group_title}`)
+            setTextContentById(`${id_form}-option-${counter}`, `${x.group_title}`)
             counter++
         }
 

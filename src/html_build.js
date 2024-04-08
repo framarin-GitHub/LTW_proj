@@ -1,10 +1,10 @@
 import helpers from './helpers'
-import task from './task'
+import classes from './classes'
 import {format, isToday, parseISO} from "date-fns";
 
 function clickEditButton(index){
     helpers.deleteAllChildrenById(`card-div-${index}`)
-    const edit_form = helpers.factoryTaskForm(`card-div-${index}`,`edit-form-${index}`,task.task_array[index])
+    const edit_form = helpers.factoryTaskForm(`card-div-${index}`,`edit-form-${index}`,classes.task_array[index])
     const submit_button = document.createElement('button')
     submit_button.setAttribute('id', `edit-button-form-${index}`)
     submit_button.setAttribute('class', `btn btn-primary submit`)    
@@ -18,14 +18,14 @@ function clickListenerEditTask(e){
     const form = document.getElementById(`edit-form-${index}`)
     const form_data = new FormData(form)
 
-    let title,group,description,date;
+    let title,group_title,description,date;
     const select = document.getElementById(`edit-form-${index}-select`)
-    group = select.value
+    group_title = select.value
     for (let x of form_data){
         if (x[0] === "title")
             title = x[1]
         if (x[0] === "group")
-            group = x[1]
+            group_title = x[1]
         if (x[0] === "description")
             description = x[1]
         if (x[0] === "date") {
@@ -36,24 +36,24 @@ function clickListenerEditTask(e){
             date = format(new Date(splittedDate[0], (splittedDate[1]-1), splittedDate[2]), 'dd/MM/yyyy')
         }
     }
-    const to_add_task = new task.Task(title, group, description, date, false)
-    task.task_array[index] = to_add_task
-    buildGrid(task.task_array)
+    const to_add_task = new classes.Task(title, group_title, description, date, false)
+    classes.task_array[index] = to_add_task
+    buildGrid(classes.task_array)
 }
 function clickListenerCreateTask(e){
-    let index = task.task_array.length
+    let index = classes.task_array.length
     const form = document.getElementById('create-new-task-form')
     const form_data = new FormData(form)
-    let title,group,description,date;
+    let title,group_title,description,date;
     const select = document.getElementById('create-new-task-form-select')
-    group = select.value
+    group_title = select.value
     for (let x of form_data){
         if (x[0] === "title")
             title = x[1]
         if (x[0] === "description")
             description = x[1]
         if (x[0] === "group"){
-            group = x[1]
+            group_title = x[1]
         }
         if (x[0] === "date") {
             let splittedDate = x[1].split('-')
@@ -63,29 +63,32 @@ function clickListenerCreateTask(e){
             date = format(new Date(splittedDate[0], (splittedDate[1]-1), splittedDate[2]), 'dd/MM/yyyy')
         }
     }
-    const to_add_task = new task.Task(title, group, description, date, false)
-    task.task_array.push(to_add_task)
-    buildGrid(task.task_array)
+    const to_add_task = new classes.Task(title, group_title, description, date, false)
+    classes.task_array.push(to_add_task)
+    buildGrid(classes.task_array)
 }
 function clickListenerCreateGroup(e){
     const form = document.getElementById('create-group-form')
     const form_data = new FormData(form)
+    let group_title;
     for(let x of form_data){
         if (x[0] === "group" && x[1] != ''){
-            task.group_array.unshift(`${x[1]}`)
+            group_title = `${x[1]}`
         }
     }
+    let group = new classes.Group(group_title, "soome1")
+    classes.group_array.unshift(group)
     helpers.deleteAllChildrenById('header-ul-dropdown')
     buildDropdown()
-    buildGrid(task.task_array)
+    buildGrid(classes.task_array)
 }
 function clickDeleteButton(index){
-    task.task_array.splice(index , 1)
-    buildGrid(task.task_array)
+    classes.task_array.splice(index , 1)
+    buildGrid(classes.task_array)
 }
 function clickStatusButton(index){
-    task.task_array[index].toggleDone()
-    buildGrid(task.task_array)
+    classes.task_array[index].toggleDone()
+    buildGrid(classes.task_array)
 }
 function gridClickEventDelegation(e){
     if(e.target && e.target.matches(".card .icon")){
@@ -107,7 +110,7 @@ function gridClickEventDelegation(e){
 function headerClickEventDelegation(e){
     if(e.target){
         if(e.target.matches("#header-li-1,#header-list-a-1")){
-            buildGrid(task.task_array)
+            buildGrid(classes.task_array)
         }
         if(e.target.matches("#header-li-2,#header-list-a-2")){
             const create_group_form = helpers.createGroupForm('central-div-grid','create-group-form')
@@ -131,9 +134,8 @@ function headerClickEventDelegation(e){
         }
         if(e.target.matches("#header-ul-dropdown a")){
             let target_id = e.target.id.slice(-1)
-            let selected_group = task.group_array[target_id]
-            console.log(task.task_array) 
-            let array_filtered = task.task_array.filter((t) => t.group === `${selected_group}`)
+            let selected_group = classes.group_array[target_id]
+            let array_filtered = classes.task_array.filter((t) => t.group_title === `${selected_group.group_title}`)
             buildGrid(array_filtered)
         }
     }
@@ -209,10 +211,10 @@ function footerBuilder(){
 }
 function buildDropdown(){
     let counter = 0
-    for(let x of task.group_array){
+    for(let x of classes.group_array){
         const header_li_dropdown = helpers.factoryHtmlElement('li','header-ul-dropdown',`header-li-dropdown-${counter}`)
         const header_a_dropdown = helpers.factoryHtmlElement('a',`header-li-dropdown-${counter}`,`header-a-dropdown-${counter}`,'dropdown-item')
-        helpers.setTextContentById(`header-a-dropdown-${counter}`,`${x}`)
+        helpers.setTextContentById(`header-a-dropdown-${counter}`,`${x.group_title}`)
         counter++
     }
 }
@@ -227,9 +229,9 @@ const builder = (()=>{
             central_grid.addEventListener('click',gridClickEventDelegation)
             content_div.append(central_grid)
         //
-        let example = new task.Task("title.example","group.example","desc.example desc.example desc.example desc.example","00-00-0000",true)
-        task.task_array.unshift(example)
-        buildGrid(task.task_array)
+        let example = new classes.Task("title.example","group.example","desc.example desc.example desc.example desc.example","00-00-0000",true)
+        classes.task_array.unshift(example)
+        buildGrid(classes.task_array)
         footerBuilder()
     }
     return {html_build}
