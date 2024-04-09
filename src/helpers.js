@@ -110,29 +110,10 @@ const helpers = (() => {
         }
         return form
     }
-    const createGroupForm = (id_parent, id_form) => {
-        deleteAllChildrenById(`${id_parent}`)
-        const form = document.createElement('form')
-        const parent = document.getElementById(`${id_parent}`)
-        form.setAttribute('id', `${id_form}`)
-        form.addEventListener('submit', (e)=>{e.preventDefault()})
-        parent.append(form)
-        form.classList.add('form')
-
-        factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-group')
-        const title_lbl = factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-group-lbl`, 'label')
-        title_lbl.setAttribute('for','group')
-        helpers.setTextContentById(`${id_form}-group-lbl`,'group')
-        const input_title = factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-group-input`, 'input')
-        input_title.setAttribute('type', 'text')
-        input_title.setAttribute('name','group')
-        
-        return form
-    }
     const deleteAllChildrenById = (id_container) => {
         const e = document.getElementById(`${id_container}`)
         e.innerHTML = "";
     }
-    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryTaskForm,createGroupForm,deleteAllChildrenById}
+    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryTaskForm,deleteAllChildrenById}
 })()
 export default helpers

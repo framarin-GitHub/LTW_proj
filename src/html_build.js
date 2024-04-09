@@ -2,6 +2,7 @@ import helpers from './helpers'
 import classes from './classes'
 import {format, isToday, parseISO} from "date-fns";
 
+let members_arr = []
 function clickEditButton(index){
     helpers.deleteAllChildrenById(`card-div-${index}`)
     const edit_form = helpers.factoryTaskForm(`card-div-${index}`,`edit-form-${index}`,classes.task_array[index])
@@ -76,11 +77,62 @@ function clickListenerCreateGroup(e){
             group_title = `${x[1]}`
         }
     }
-    let group = new classes.Group(group_title, "soome1")
+    let group = new classes.Group(group_title, members_arr)
+    members_arr = []
     classes.group_array.unshift(group)
     helpers.deleteAllChildrenById('header-ul-dropdown')
     buildDropdown()
     buildGrid(classes.task_array)
+}    
+function clickListenerRemoveMember(e){
+    let div_parent = e.target.parentNode
+    let member_to_rem = div_parent.textContent
+    let index = members_arr.indexOf(member_to_rem)
+    let div_container = div_parent.parentNode
+    members_arr.slice(index,1)
+    div_container.removeChild(div_parent) 
+}
+function submitListenerAddMember(e){
+    e.preventDefault()
+    let length = members_arr.length
+    let form = e.target
+    let form_data = new FormData(form)
+    let new_member
+    for(let x of form_data){
+        if (x[0] === "member" && x[1] != ''){
+            new_member = `${x[1]}`
+        }
+    }
+    let index = members_arr.indexOf(new_member)
+    if(index < 0){
+        members_arr.push(new_member)
+        helpers.deleteAllChildrenById(`group-card-member-div-${length}`)
+        let p = helpers.factoryHtmlElement('p', `group-card-member-div-${length}`, `group-card-member-p-${length}`)
+        helpers.setTextContentById(`group-card-member-p-${length}`,`${members_arr[length]}`)
+        let remove_button = document.createElement('button')
+        remove_button.addEventListener('click',clickListenerRemoveMember)
+        remove_button.setAttribute('id', `group-card-remove-${length}`)
+        remove_button.classList.add('btn')
+        remove_button.classList.add('btn-primary')
+        p.append(remove_button)
+        helpers.setTextContentById(`group-card-remove-${length}`, 'rem')
+    }
+    else{
+        const group_body = document.getElementById(`group-card-member-div-${length}`)
+        group_body.removeChild(form)
+    }
+
+}     
+function clickListenerAddMember(e){
+    const member_div = helpers.factoryHtmlElement('div', 'group-card-body',`group-card-member-div-${members_arr.length}`,'card-text')
+    const form = document.createElement('form')
+    form.setAttribute('id',`group-card-add-form-${members_arr.length}`)
+    form.addEventListener('submit', submitListenerAddMember)
+    member_div.append(form)
+    
+    const input_member = helpers.factoryHtmlElement('input', `group-card-add-form-${members_arr.length}`, `group-card-input-${members_arr.length}`)
+    input_member.setAttribute('type', 'text')
+    input_member.setAttribute('name','member')
 }
 function clickDeleteButton(index){
     classes.task_array.splice(index , 1)
@@ -113,24 +165,17 @@ function headerClickEventDelegation(e){
             buildGrid(classes.task_array)
         }
         if(e.target.matches("#header-li-2,#header-list-a-2")){
-            const create_group_form = helpers.createGroupForm('central-div-grid','create-group-form')
-            const submit_button = document.createElement('button')
-            submit_button.setAttribute('id', 'create-group-button-form')
-            submit_button.setAttribute('class', `btn btn-primary submit`)    
-            submit_button.setAttribute('form',`create-group-form`)
-            submit_button.addEventListener('click', clickListenerCreateGroup)
-            create_group_form.append(submit_button)
-            helpers.setTextContentById('create-group-button-form','done')
+            const create_group_form = createGroupForm('central-div-grid','create-group-form')
         }
         if(e.target.matches("#header-li-3,#header-list-a-3")){
             const create_new_task_form = helpers.factoryTaskForm('central-div-grid','create-new-task-form',null)
             const submit_button = document.createElement('button')
-            submit_button.setAttribute('id', 'create-new-button-form')
+            submit_button.setAttribute('id', 'create-new-task-form-submit-button')
             submit_button.setAttribute('class', `btn btn-primary submit`)    
             submit_button.setAttribute('form',`create-new-task-form`)
             submit_button.addEventListener('click', clickListenerCreateTask)
             create_new_task_form.append(submit_button)
-            helpers.setTextContentById('create-new-button-form','done')
+            helpers.setTextContentById('create-new-task-form-submit-button','done')
         }
         if(e.target.matches("#header-ul-dropdown a")){
             let target_id = e.target.id.slice(-1)
@@ -139,6 +184,47 @@ function headerClickEventDelegation(e){
             buildGrid(array_filtered)
         }
     }
+}
+const createGroupForm = (id_parent, id_form) => {
+    helpers.deleteAllChildrenById(`${id_parent}`)
+    const form = document.createElement('form')
+    const parent = document.getElementById(`${id_parent}`)
+    form.setAttribute('id', `${id_form}`)
+    form.addEventListener('submit', (e)=>{e.preventDefault()})
+    parent.append(form)
+    form.classList.add('form')
+
+    helpers.factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-group')
+    const group_title_lbl = helpers.factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-group-lbl`, 'label')
+    group_title_lbl.setAttribute('for','group')
+    helpers.setTextContentById(`${id_form}-group-lbl`,'group')
+    const input_group_title = helpers.factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-group-input`, 'input')
+    input_group_title.setAttribute('type', 'text')
+    input_group_title.setAttribute('name','group')     
+    input_group_title.setAttribute('value', 'new group name')
+
+
+    const add_member_button = document.createElement('button')
+    add_member_button.setAttribute('id', `${id_form}-add-button`)
+    add_member_button.setAttribute('class', `btn btn-primary add`)    
+    add_member_button.addEventListener('click', clickListenerAddMember)
+    form.append(add_member_button)
+    helpers.setTextContentById(`${id_form}-add-button`,'+ add member')
+     
+    const submit_button = document.createElement('button')
+    submit_button.setAttribute('id', `${id_form}-submit-button`)
+    submit_button.setAttribute('class', `btn btn-primary submit`)    
+    submit_button.setAttribute('form',`${id_form}`)
+    submit_button.addEventListener('click', clickListenerCreateGroup)
+    form.append(submit_button)
+    helpers.setTextContentById(`${id_form}-submit-button`,'done')
+
+    const card_div = helpers.factoryHtmlElement('div','central-div-grid','group-card-div','card text-center')
+    const card_div_title = helpers.factoryHtmlElement('h5','group-card-div','group-card-title','card-title')
+    const card_div_body = helpers.factoryHtmlElement('div','group-card-div','group-card-body','card-body')
+    helpers.setTextContentById('group-card-title','your members')
+    
+    return form
 }
 function headerBuilder(){
     const parent = document.getElementById('hook')
