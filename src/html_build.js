@@ -67,15 +67,15 @@ function clickListenerCreateGroup(e){
     classes.group_array.unshift(group)
     helpers.deleteAllChildrenById('header-ul-dropdown')
     buildDropdown()
-    buildGrid(classes.task_array,true)
+    buildGrid(classes.task_array)
 }    
 function clickListenerRemoveMember(e){
     let button = e.target.parentNode
     let div_parent = button.parentNode
     let member_to_rem = div_parent.textContent
-    let index = members_arr.indexOf(member_to_rem)
+    let index = members_arr.indexOf(`${member_to_rem}`)
     let div_container = div_parent.parentNode
-    members_arr.slice(index,1)
+    members_arr.splice(index,1)
     div_container.removeChild(div_parent) 
 }
 /*
@@ -98,7 +98,7 @@ function submitListenerAddMember(e){
         helpers.deleteAllChildrenById(`group-card-member-div-${length}`)
         let p = helpers.factoryHtmlElement('p', `group-card-member-div-${length}`, `group-card-member-p-${length}`)
         helpers.setTextContentById(`group-card-member-p-${length}`,`${members_arr[length]}`)
-        let remove_button = helpers.factoryHtmlElement('button', `group-card-member-p-${length}`, `group-card-remove-${length}`, 'btn button')
+        let remove_button = helpers.factoryHtmlElement('button', `group-card-member-div-${length}`, `group-card-remove-${length}`, 'btn button')
         document.createElement('button')
         const remove_icon = new Image();
         remove_icon.src = remove_icon_src
@@ -116,7 +116,7 @@ function submitListenerAddMember(e){
 create the form for the new member
 */   
 function clickListenerAddMember(e){
-    const member_div = helpers.factoryHtmlElement('div', 'group-card-body',`group-card-member-div-${members_arr.length}`,'card-text')
+    const member_div = helpers.factoryHtmlElement('div', 'group-card-body',`group-card-member-div-${members_arr.length}`,'card-text member-div')
     const form = document.createElement('form')
     form.setAttribute('id',`group-card-add-form-${members_arr.length}`)
     form.addEventListener('submit', submitListenerAddMember)
@@ -154,7 +154,7 @@ function clickListenerEditTask(e){
     }
     const to_add_task = new classes.Task(title, group_title, description, date, false)
     classes.task_array[index] = to_add_task
-    buildGrid(classes.task_array, true)
+    buildGrid(classes.task_array)
 }
 /*
 create the form for the new task
@@ -227,6 +227,10 @@ function gridClickEventDelegation(e){
             clickStatusButton(index)
         }
     }
+    if(e.target && e.target.matches(".card-body")){
+        let card_div = e.target.parentNode
+        card_div.classList.add('card-animation')
+    }
     if(e.target && e.target.matches(".mini-title")){
         let target_id = e.target.id
         let card_element = e.target.parentNode
@@ -243,7 +247,7 @@ manage the click events occuring in the header navbar
 function headerClickEventDelegation(e){
     if(e.target){
         if(e.target.matches("#header-li-1,#header-list-a-1")){
-            buildGrid(classes.task_array, true)
+            buildGrid(classes.task_array)
         }
         if(e.target.matches("#header-li-2,#header-list-a-2")){
             const create_group_form = createGroupForm('central-div-grid','create-group-form')
@@ -262,7 +266,7 @@ function headerClickEventDelegation(e){
             let target_id = e.target.id.slice(-1)
             let selected_group = classes.group_array[target_id]
             let array_filtered = classes.task_array.filter((t) => t.group_title === `${selected_group.group_title}`)
-            buildGrid(array_filtered)
+            buildGrid(array_filtered,true)
         }
     }
 }
@@ -367,7 +371,7 @@ function buildDropdown(){
         content_div.append(central_grid)
         let example = new classes.Task("title.example","group.example","desc.example desc.example desc.example desc.example","00-00-0000",true)
         classes.task_array.unshift(example)
-        buildGrid(classes.task_array,true)
+        buildGrid(classes.task_array)
         footerBuilder()
     }
 return {html_build}
