@@ -18,6 +18,9 @@ const helpers = (() => {
         const ele = document.getElementById(`${id}`)
         ele.textContent = text
     }
+    /*
+    create the first element in the pag
+    */
     const createHookContent = () => {
         const body = document.querySelector('body')
         const content_div = document.createElement('div')
@@ -25,9 +28,12 @@ const helpers = (() => {
         body.append(content_div)
         return content_div
     }
-    const factoryTaskCard = (index,task) => {
-        const card_div = factoryHtmlElement('div','central-div-grid',`card-div-${index}`,'card text-center')
-        const card_div_body = factoryHtmlElement('div',`card-div-${index}`,`card-div-body-${index}`,'card-body')
+    const factoryTaskCard = (index,task, id_card = null) => {
+        if(id_card == null){
+            const card_div = factoryHtmlElement('div','central-div-grid',`card-div-${index}`,'card text-center')
+            id_card = card_div.id
+        }
+        const card_div_body = factoryHtmlElement('div',`${id_card}`,`card-div-body-${index}`,'card-body')
         const card_div_title = factoryHtmlElement('h5',`card-div-body-${index}`,`card-div-title-${index}`,'card-title')
         setTextContentById(`card-div-title-${index}`,`${task.title}`)
         const card_p = factoryHtmlElement('p',`card-div-body-${index}`,`card-p-${index}`,'card-text')
@@ -50,6 +56,11 @@ const helpers = (() => {
         status_icon.src = status_icon_src
         status_icon.setAttribute('class','icon')
         card_status_button.append(status_icon)
+    }
+    const factoryMinifiedCard = (index,task) => {
+        const card_div = factoryHtmlElement('div','central-div-grid',`card-mini-div-${index}`,'card card-mini text-center')
+        const card_div_title = factoryHtmlElement('h5',`card-mini-div-${index}`,`card-mini-div-title-${index}`,'mini-title card-title')
+        setTextContentById(`card-mini-div-title-${index}`,`${task.title}`)
     }
     const factoryTaskForm = (id_parent, id_form, task) => {
         deleteAllChildrenById(`${id_parent}`)
@@ -114,6 +125,6 @@ const helpers = (() => {
         const e = document.getElementById(`${id_container}`)
         e.innerHTML = "";
     }
-    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryTaskForm,deleteAllChildrenById}
+    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryTaskForm,deleteAllChildrenById,factoryMinifiedCard}
 })()
 export default helpers
