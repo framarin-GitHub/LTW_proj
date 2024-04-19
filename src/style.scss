@@ -9,6 +9,7 @@
     position: sticky;
     top: 0;
     z-index: 1;
+    flex: 0 0 50px;
 
 }
 #header-ul{
@@ -22,28 +23,62 @@
     min-height: 50px;
     display: flex;
     flex-wrap: wrap;
-    padding: 1rem;
+    flex: 1 0 100%;
+    padding: 100px;
+    background-color: lightgray;
+    
+    transition: background-color;
+    transition-duration: 2s;
 }
 #footer-nav{
     min-height: 50px;
-    position: absolute;
+    width: 100%;
+    position: sticky;
     bottom: 0;
+    flex: 0 0 50px;
     z-index: 1;
+    border: 1px solid black;
 }
 .icon{
     width: 2rem;
     height: auto;
 }
 .card{
-    width: 18rem;
-    height: 18rem;
+    width: 15rem;
+    height: 15rem; 
+    transition: box-shadow 1s ease-out;
 }
-
-//not working
-.card-animation{
-    transition: translate(50px,50px) 2s ease-out;
+/*
+classes for transformation
+*/
+.card.card-animation{
+    font-size: 30px;
+    width: 30rem;
+    height: 30rem;
+    display: block;
+    z-index: 1000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fadeContent 1s forwards;
+    @keyframes  fadeContent {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 1;
+        }   
+    }
+    box-shadow: 20px 20px 50px 15px grey;
 }
-
+#central-div-grid.central-grid-animation{
+    background-color: darkgray;
+}
+//
 .card-mini{
     width: 30ch;
     height: 30px;
@@ -55,7 +90,7 @@
 .form {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
     height: 100%;
     align-items: center;
 }

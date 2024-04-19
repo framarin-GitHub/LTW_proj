@@ -1,7 +1,9 @@
-import helpers from './helpers'
-import classes from './classes'
+import helpers from './helpers';
+import classes from './classes';
 import {format, isToday, parseISO} from "date-fns";
-import remove_icon_src from './icons/recycle-bin.png'
+import remove_icon_src from './icons/recycle-bin.png';
+import $ from 'jquery';
+
 
 const builder = (()=>{
 
@@ -227,9 +229,11 @@ function gridClickEventDelegation(e){
             clickStatusButton(index)
         }
     }
-    if(e.target && e.target.matches(".card-body")){
-        let card_div = e.target.parentNode
-        card_div.classList.add('card-animation')
+    if(e.target && e.target.matches(".card-body , .card-title, .card-text")){
+        let card_id = e.target.id
+        let index = card_id.slice(-1)
+        $(`#card-div-${index}`).toggleClass('card-animation');
+        $('#central-div-grid').toggleClass('central-grid-animation');
     }
     if(e.target && e.target.matches(".mini-title")){
         let target_id = e.target.id
@@ -331,14 +335,16 @@ function footerBuilder(){
     const header_li1 = helpers.factoryHtmlElement('li','footer-ul','footer-li-1','nav-item')
     const header_li2 = helpers.factoryHtmlElement('li','footer-ul','footer-li-2','nav-item')
     const header_li3 = helpers.factoryHtmlElement('li','footer-ul','footer-li-3','nav-item')
+    helpers.setTextContentById('footer-li-1','add some text here')
 }
 /*
 display the events card based on the given array
 */
-function buildGrid(task_array_to_build,mini = false){
+function buildGrid(task_array_to_build,group_page = false){
     helpers.deleteAllChildrenById('central-div-grid')
     let c = 0
-    if(mini){
+    if(group_page){
+        buldGroupLatBar(task_array_to_build[0].group_title)
         for(let t of task_array_to_build){
             helpers.factoryMinifiedCard(c++,t)
         }
@@ -360,6 +366,9 @@ function buildDropdown(){
         helpers.setTextContentById(`header-a-dropdown-${counter}`,`${x.group_title}`)
         counter++
     }
+}
+function buildGroupLatBar(group_title){
+    //to implement lateral bar with membbers and logic
 }
 
     const html_build = () => {
