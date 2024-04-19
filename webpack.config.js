@@ -5,10 +5,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: {
      index : './src/index.js',
+     homepage: './src/homepage.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'LTW_proj',
+      title: 'Calendar',
+      filename: 'app.html',
+    }),
+    new HtmlWebpackPlugin({
+      title: 'LTW_proj_homepage',
+      filename: 'index.html',
+      template: './src/index.html',
+      chunks: ['homepage'],
     }),
   ],
   output: {

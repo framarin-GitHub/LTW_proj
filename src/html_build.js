@@ -285,7 +285,7 @@ function headerBuilder(){
     
     const header_div1 = helpers.factoryHtmlElement('div','header-nav','header-div-1','container-fluid')
     const header_a = helpers.factoryHtmlElement('a','header-div-1','header-a','navbar-brand')
-    header_a.setAttribute('href','#')
+    header_a.setAttribute('href','index.html')
     helpers.setTextContentById('header-a','PLAN YOUT MEETINGS')
     const header_button = helpers.factoryHtmlElement('button','header-div-1','header-button','navbar-toggler')
     header_button.setAttribute('type','button')
@@ -307,7 +307,7 @@ function headerBuilder(){
     const header_list_a2 = helpers.factoryHtmlElement('a','header-li-2','header-list-a-2','nav-link active')
     const header_list_a3 = helpers.factoryHtmlElement('a','header-li-3','header-list-a-3','nav-link active')
     header_list_a1.setAttribute('aria-current','page')
-    header_list_a1.setAttribute('href','#')
+    header_list_a1.setAttribute('href','index.html')
     helpers.setTextContentById('header-list-a-1','Home')
     header_list_a2.setAttribute('href','#')
     helpers.setTextContentById('header-list-a-2','Create group')
