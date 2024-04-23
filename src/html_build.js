@@ -286,7 +286,7 @@ function headerBuilder(){
     const header_div1 = helpers.factoryHtmlElement('div','header-nav','header-div-1','container-fluid')
     const header_a = helpers.factoryHtmlElement('a','header-div-1','header-a','navbar-brand')
     header_a.setAttribute('href','index.html')
-    helpers.setTextContentById('header-a','PLAN YOUT MEETINGS')
+    helpers.setTextContentById('header-a','PLAN YOUR MEETINGS')
     const header_button = helpers.factoryHtmlElement('button','header-div-1','header-button','navbar-toggler')
     header_button.setAttribute('type','button')
     header_button.setAttribute('data-bs-toggle','collapse')
@@ -344,7 +344,8 @@ function buildGrid(task_array_to_build,group_page = false){
     helpers.deleteAllChildrenById('central-div-grid')
     let c = 0
     if(group_page){
-        buldGroupLatBar(task_array_to_build[0].group_title)
+        if(task_array_to_build.length)
+            buildGroupLatBar(task_array_to_build[0].group_title)
         for(let t of task_array_to_build){
             helpers.factoryMinifiedCard(c++,t)
         }
@@ -367,8 +368,12 @@ function buildDropdown(){
         counter++
     }
 }
+//to implement function that shows group members
 function buildGroupLatBar(group_title){
-    //to implement lateral bar with membbers and logic
+    let group = classes.group_array.filter((g) => g.group_title == group_title)
+    for(let m of group[0].members){
+        console.log(m)
+    }
 }
 
     const html_build = () => {

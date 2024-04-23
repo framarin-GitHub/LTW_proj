@@ -1,2 +1,2 @@
-import './style.scss'
-import 'bootstrap'
+import './style_homepage.scss'
+//import 'bootstrap'

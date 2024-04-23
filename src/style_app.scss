@@ -1,16 +1,18 @@
 @import "~bootstrap/scss/bootstrap";
+
 #hook {
     height: 100vh;
     display: flex;
     flex-direction: column;
 }
 #header-nav{
+    padding: 0px;
     min-height: 50px;
     position: sticky;
     top: 0;
     z-index: 1;
     flex: 0 0 50px;
-
+    padding-left: 25px;
 }
 #header-ul{
     width: 100%;
@@ -39,11 +41,11 @@
     z-index: 1;
     border: 1px solid black;
 }
-.icon{
+button > .icon{
     width: 2rem;
     height: auto;
 }
-.card{
+#central-div-grid > .card{
     width: 15rem;
     height: 15rem; 
     transition: box-shadow 1s ease-out;
@@ -79,22 +81,22 @@ classes for transformation
     background-color: darkgray;
 }
 //
-.card-mini{
+#central-div-grid > .card-mini{
     width: 30ch;
     height: 30px;
 }
-.mini-title{
+#central-div-grid > .mini-title{
     width: 100%;
     height: 100%;
 }
-.form {
+#central-div-grid > .form {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     height: 100%;
     align-items: center;
 }
-.label{
+.card > .label{
     display: block;
 }
 .card .button{
@@ -105,16 +107,16 @@ classes for transformation
 .card .form .submit {
     margin-top: auto;
 }
-.member-div{
+#central-div-grid > .member-div{
     display: flex;
 }
 .member-div .icon{
     margin-left: auto;
 }
 //classes for status button
-.isDone {
+button.isDone {
     background-color: green;
 }
-.isNotDone {
+button.isNotDone {
     background-color: red; 
 }
