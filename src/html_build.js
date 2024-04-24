@@ -274,6 +274,62 @@ function headerClickEventDelegation(e){
         }
     }
 }
+async function  clickFetch(e){
+    console.log("fetching...")
+    const url = new URL("http://localhost:8080")
+    fetch(url, {mode:'cors'})
+        .then((response)=>{
+            console.log(response)
+        })
+}
+const retrieveFromStorage = () => {
+    let counter = 0
+    while(localStorage.getItem(`task${counter}`)) {
+        let task_stored = localStorage.getItem(`task${counter}`)
+        let task_split = task_stored.split('%')
+        let task = new classes.Task(task_split[0], task_split[1],task_split[2],task_split[3],task_split[4]==='true'?true:false)
+        classes.task_array.unshift(task)
+        counter++
+    }
+    counter = 0
+    while(localStorage.getItem(`group${counter}`)) {
+        let group_stored = localStorage.getItem(`task${counter}`)
+        let group_split = task_stored.split('%')
+        let group_title = group_split.shift()
+        let group = new classes.Group(group_title, group_split)
+        members_arr = []
+        classes.group_array.unshift(group)
+        counter++
+    }
+}
+function clickSave (){
+    let counter = 0
+    for (let t of classes.task_array) {
+        localStorage.setItem(`task${counter}`, `${t.title}%${t.group_title}%${t.description}%${t.date}%${t.is_done}%`)
+        counter++
+    }
+    counter = 0 
+    for (let g of classes.group_array) {
+        localStorage.setItem(`group${counter}`, `${g.group_title}%${JSON.stringify(g.members,null,'%')}`)
+        counter++
+    }
+}
+function clickClear(){
+    localStorage.clear()
+}
+function footerClickEventDelegation(e){
+    if(e.target){
+        if(e.target.matches("#footer-fetch")){
+            clickFetch(e)
+        }
+        if(e.target.matches("#footer-save")){
+            clickSave()
+        }
+        if(e.target.matches("#footer-clear")){
+            clickClear()
+        }
+    }
+}
 
 function headerBuilder(){
     const parent = document.getElementById('hook')
@@ -329,21 +385,20 @@ function headerBuilder(){
     helpers.setTextContentById('header-sign-up','sign up')
 
 }
-async function  clickListenerFetch(e){
-    console.log("fetching...")
-    const url = new URL("http://localhost:8080")
-    fetch(url, {mode:'cors'})
-        .then((response)=>{
-            console.log(response)
-        })
-}
+
 function footerBuilder(){
-    const footer_nav = helpers.factoryHtmlElement('nav','hook','footer-nav','navbar navbar-expand-lg navbar-dark bg-dark')
-    const ajax_button_test = document.createElement('button')
-    ajax_button_test.addEventListener('click', clickListenerFetch)
-    ajax_button_test.setAttribute('id','footer-ajax-button')
-    footer_nav.append(ajax_button_test)
-    helpers.setTextContentById('footer-ajax-button','ajax button')
+    const parent = document.getElementById('hook')
+    const footer_nav = document.createElement('nav')
+    footer_nav.setAttribute('id', 'footer-nav')
+    footer_nav.setAttribute('class', 'navbar navbar-expand-lg navbar-dark bg-dark')
+    footer_nav.addEventListener('click', footerClickEventDelegation)
+    parent.append(footer_nav)
+    const header_clear = helpers.factoryHtmlElement('button', 'footer-nav', 'footer-clear', 'btn btn-dark')
+    helpers.setTextContentById('footer-clear','clear')
+    const header_save = helpers.factoryHtmlElement('button', 'footer-nav', 'footer-save', 'btn btn-dark')
+    helpers.setTextContentById('footer-save','save')
+    const header_fetch = helpers.factoryHtmlElement('button', 'footer-nav', 'footer-fetch', 'btn btn-dark')
+    helpers.setTextContentById('footer-fetch','fetch')
 }
 /*
 display the events card based on the given array
@@ -385,14 +440,13 @@ function buildGroupLatBar(group_title){
 }
 
     const html_build = () => {
+        retrieveFromStorage()
         const content_div = helpers.createHookContent();
         headerBuilder();
         const central_grid = document.createElement('div')
         central_grid.setAttribute('id', 'central-div-grid')
         central_grid.addEventListener('click',gridClickEventDelegation)
         content_div.append(central_grid)
-        let example = new classes.Task("title.example","group.example","desc.example desc.example desc.example desc.example","00-00-0000",true)
-        classes.task_array.unshift(example)
         buildGrid(classes.task_array)
         footerBuilder()
     }
