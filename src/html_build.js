@@ -2,7 +2,7 @@ import helpers from './helpers';
 import classes from './classes';
 import {format, isToday, parseISO} from "date-fns";
 import remove_icon_src from './icons/recycle-bin.png';
-import $ from 'jquery';
+import $, { ajax } from 'jquery';
 
 
 const builder = (()=>{
@@ -329,13 +329,21 @@ function headerBuilder(){
     helpers.setTextContentById('header-sign-up','sign up')
 
 }
+async function  clickListenerFetch(e){
+    console.log("fetching...")
+    const url = new URL("http://localhost:8080")
+    fetch(url, {mode:'cors'})
+        .then((response)=>{
+            console.log(response)
+        })
+}
 function footerBuilder(){
-    const header_nav = helpers.factoryHtmlElement('nav','hook','footer-nav','navbar navbar-expand-lg navbar-dark bg-dark')
-    const header_ul = helpers.factoryHtmlElement('ul','footer-nav','footer-ul','navbar-nav')
-    const header_li1 = helpers.factoryHtmlElement('li','footer-ul','footer-li-1','nav-item')
-    const header_li2 = helpers.factoryHtmlElement('li','footer-ul','footer-li-2','nav-item')
-    const header_li3 = helpers.factoryHtmlElement('li','footer-ul','footer-li-3','nav-item')
-    helpers.setTextContentById('footer-li-1','add some text here')
+    const footer_nav = helpers.factoryHtmlElement('nav','hook','footer-nav','navbar navbar-expand-lg navbar-dark bg-dark')
+    const ajax_button_test = document.createElement('button')
+    ajax_button_test.addEventListener('click', clickListenerFetch)
+    ajax_button_test.setAttribute('id','footer-ajax-button')
+    footer_nav.append(ajax_button_test)
+    helpers.setTextContentById('footer-ajax-button','ajax button')
 }
 /*
 display the events card based on the given array
