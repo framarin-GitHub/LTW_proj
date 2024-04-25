@@ -68,7 +68,6 @@ function clickListenerCreateGroup(e){
     members_arr = []
     classes.group_array.unshift(group)
     helpers.deleteAllChildrenById('header-ul-dropdown')
-    buildDropdown()
     buildGrid(classes.task_array)
 }    
 function clickListenerRemoveMember(e){
@@ -286,19 +285,23 @@ const retrieveFromStorage = () => {
     let counter = 0
     while(localStorage.getItem(`task${counter}`)) {
         let task_stored = localStorage.getItem(`task${counter}`)
-        let task_split = task_stored.split('%')
-        let task = new classes.Task(task_split[0], task_split[1],task_split[2],task_split[3],task_split[4]==='true'?true:false)
-        classes.task_array.unshift(task)
+        if(task_stored){
+            let task_split = task_stored.split('%')
+            let task = new classes.Task(task_split[0], task_split[1],task_split[2],task_split[3],task_split[4]==='true'?true:false)
+            classes.task_array.unshift(task)
+        }
         counter++
     }
     counter = 0
     while(localStorage.getItem(`group${counter}`)) {
-        let group_stored = localStorage.getItem(`task${counter}`)
-        let group_split = task_stored.split('%')
-        let group_title = group_split.shift()
-        let group = new classes.Group(group_title, group_split)
-        members_arr = []
-        classes.group_array.unshift(group)
+        let group_stored = localStorage.getItem(`group${counter}`)
+        if(group_stored){
+            let group_split = group_stored.split('%')
+            let group_title = group_split.shift()
+            let members_array = group_split[0].split(',')
+            let group = new classes.Group(group_title, members_array)
+            classes.group_array.unshift(group)
+        }
         counter++
     }
 }
@@ -310,7 +313,10 @@ function clickSave (){
     }
     counter = 0 
     for (let g of classes.group_array) {
-        localStorage.setItem(`group${counter}`, `${g.group_title}%${JSON.stringify(g.members,null,'%')}`)
+        let data = g.group_title
+        for(let m of g.members)
+            data = data + `%${m}`
+        localStorage.setItem(`group${counter}`, `${data}`)
         counter++
     }
 }
@@ -363,7 +369,7 @@ function headerBuilder(){
     const header_list_a2 = helpers.factoryHtmlElement('a','header-li-2','header-list-a-2','nav-link active')
     const header_list_a3 = helpers.factoryHtmlElement('a','header-li-3','header-list-a-3','nav-link active')
     header_list_a1.setAttribute('aria-current','page')
-    header_list_a1.setAttribute('href','index.html')
+    header_list_a1.setAttribute('href','app.html')
     helpers.setTextContentById('header-list-a-1','Home')
     header_list_a2.setAttribute('href','#')
     helpers.setTextContentById('header-list-a-2','Create group')
@@ -406,6 +412,7 @@ display the events card based on the given array
 function buildGrid(task_array_to_build,group_page = false){
     helpers.deleteAllChildrenById('central-div-grid')
     let c = 0
+    buildDropdown()
     if(group_page){
         if(task_array_to_build.length)
             buildGroupLatBar(task_array_to_build[0].group_title)
@@ -423,6 +430,7 @@ function buildGrid(task_array_to_build,group_page = false){
 display group titles in the dropdown menu
 */
 function buildDropdown(){
+    helpers.deleteAllChildrenById('header-ul-dropdown')
     let counter = 0
     for(let x of classes.group_array){
         const header_li_dropdown = helpers.factoryHtmlElement('li','header-ul-dropdown',`header-li-dropdown-${counter}`)
@@ -431,12 +439,36 @@ function buildDropdown(){
         counter++
     }
 }
-//to implement function that shows group members
-function buildGroupLatBar(group_title){
-    let group = classes.group_array.filter((g) => g.group_title == group_title)
-    for(let m of group[0].members){
-        console.log(m)
+function latBarClickEventDelegation(e){
+    if(e.target){
+        if(e.target.matches("#lat-bar-delete-button")){
+            let title_p = document.getElementById('lat-bar-p-title')
+            let group_title = title_p.textContent
+            let group_to_del = new classes.Group(group_title)
+            group_to_del.deleteGroup()
+            buildGrid(classes.task_array)
+        }
     }
+}
+function buildGroupLatBar(group_title){
+    let group_target = classes.group_array.filter((g) => g.group_title == group_title)
+    console.log(group_target)
+    const parent = document.getElementById('central-div-grid')
+    const lat_bar = document.createElement('div')
+    lat_bar.setAttribute('id', 'lat-bar-div')
+    lat_bar.addEventListener('click', latBarClickEventDelegation)
+    parent.append(lat_bar)
+    let counter = 0
+    helpers.factoryHtmlElement('p','lat-bar-div','lat-bar-p-title')
+    helpers.setTextContentById('lat-bar-p-title', `${group_target[0].group_title}`)
+    for(let m of group_target[0].members[0]){
+        console.log(m)
+        helpers.factoryHtmlElement('div', 'lat-bar-div',`lat-bar-member-${counter}`)
+        helpers.setTextContentById(`lat-bar-member-${counter}`,`${m}`)
+        counter++
+    }
+    helpers.factoryHtmlElement('button','lat-bar-div','lat-bar-delete-button','btn btn-primary')
+    helpers.setTextContentById('lat-bar-delete-button', 'delete')
 }
 
     const html_build = () => {
