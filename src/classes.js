@@ -34,11 +34,16 @@ const task = (() => {
                 this.members.splice(index, 1)
         }
         deleteGroup(){
-            for(let x of task_array){
-                if(x.group_title == this.group_title)
-                    return
+            for(let t of task_array){
+                if(t.group_title == this.group_title)
+                    t.group_title = ''
             }
-            let index = group_array.indexOf(this)
+            let found
+            for(let g of group_array){
+                if(g.group_title == this.group_title)
+                    found = g
+            }
+            let index = group_array.indexOf(found)
             if(index > -1)
                 group_array.splice(index,1)
         }

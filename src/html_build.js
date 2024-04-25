@@ -278,7 +278,9 @@ async function  clickFetch(e){
     const url = new URL("http://localhost:8080")
     fetch(url, {mode:'cors'})
         .then((response)=>{
-            console.log(response)
+            response.text()
+        })
+        .then((text) => {
         })
 }
 const retrieveFromStorage = () => {
@@ -452,7 +454,6 @@ function latBarClickEventDelegation(e){
 }
 function buildGroupLatBar(group_title){
     let group_target = classes.group_array.filter((g) => g.group_title == group_title)
-    console.log(group_target)
     const parent = document.getElementById('central-div-grid')
     const lat_bar = document.createElement('div')
     lat_bar.setAttribute('id', 'lat-bar-div')
@@ -462,7 +463,6 @@ function buildGroupLatBar(group_title){
     helpers.factoryHtmlElement('p','lat-bar-div','lat-bar-p-title')
     helpers.setTextContentById('lat-bar-p-title', `${group_target[0].group_title}`)
     for(let m of group_target[0].members[0]){
-        console.log(m)
         helpers.factoryHtmlElement('div', 'lat-bar-div',`lat-bar-member-${counter}`)
         helpers.setTextContentById(`lat-bar-member-${counter}`,`${m}`)
         counter++
