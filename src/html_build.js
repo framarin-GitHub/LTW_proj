@@ -271,17 +271,57 @@ function headerClickEventDelegation(e){
             let array_filtered = classes.task_array.filter((t) => t.group_title === `${selected_group.group_title}`)
             buildGrid(array_filtered,true)
         }
+        if(e.target.matches("#header-enroll")){
+            const enroll_div = helpers.factoryHtmlElement('div','hook','enroll-div','card text-center')
+            let enroll_form = document.createElement('form')
+            enroll_form.setAttribute('id', 'enroll-form')
+            enroll_form.addEventListener('submit', (e)=>{e.preventDefault()})
+            enroll_div.append(enroll_form)
+            enroll_form.classList.add('form')
+            
+            helpers.factoryHtmlElement('div', `enroll-form`, `enroll-form-username-div`, 'form-group')
+            const username_lbl = helpers.factoryHtmlElement('label', `enroll-form-username-div`, `enroll-form-username-lbl`, 'label')
+            username_lbl.setAttribute('for','username')
+            helpers.setTextContentById(`enroll-form-username-lbl`,'username')
+            const input_username = helpers.factoryHtmlElement('input', `enroll-form-username-div`, `enroll-form-username-input`, 'input')
+            input_username.setAttribute('type', 'text')
+            input_username.setAttribute('name','username')
+        
+            helpers.factoryHtmlElement('div', `enroll-form`, `enroll-form-password-div`, 'form-group')
+            const password_lbl = helpers.factoryHtmlElement('label', `enroll-form-password-div`, `enroll-form-password-lbl`, 'label')
+            password_lbl.setAttribute('for','password')
+            helpers.setTextContentById(`enroll-form-password-lbl`,'password')
+            const input_password = helpers.factoryHtmlElement('input', `enroll-form-password-div`, `enroll-form-password-input`, 'input')
+            input_password.setAttribute('type', 'password')
+            input_password.setAttribute('name','password')
+
+            const submit_button = document.createElement('button')
+            submit_button.setAttribute('id', `enroll-form-submit`)
+            submit_button.setAttribute('class', `btn btn-primary submit`)    
+            submit_button.setAttribute('form',`enroll-form`)
+            //submit_button.addEventListener('click', submitEnroll)
+            enroll_form.append(submit_button)
+            helpers.setTextContentById(`enroll-form-submit`,'register')
+        }
     }
 }
 async function  clickFetch(e){
     console.log("fetching...")
     const url = new URL("http://localhost:8080")
-    fetch(url, {mode:'cors'})
-        .then((response)=>{
-            response.text()
+    fetch(url, {
+        mode:'cors',
+        method: 'POST',
+        body : JSON.stringify({
+            username: "mock",
+            password: "psw"
         })
-        .then((text) => {
-        })
+    })
+    .then((response)=>{
+        return response.text()
+    })
+    .then((value) => {
+        console.log(value)
+    })
 }
 const retrieveFromStorage = () => {
     let counter = 0
@@ -389,8 +429,8 @@ function headerBuilder(){
     const header_div2 = helpers.factoryHtmlElement('div','header-nav','header-div-2','container-fluid')
     const header_sign_in = helpers.factoryHtmlElement('button', 'header-div-2', 'header-sign-in', 'btn btn-outline-light')
     helpers.setTextContentById('header-sign-in','sign in')
-    const header_sign_up = helpers.factoryHtmlElement('button', 'header-div-2', 'header-sign-up', 'btn btn-dark')
-    helpers.setTextContentById('header-sign-up','sign up')
+    const header_enroll = helpers.factoryHtmlElement('button', 'header-div-2', 'header-enroll', 'btn btn-dark')
+    helpers.setTextContentById('header-enroll','enroll')
 
 }
 
