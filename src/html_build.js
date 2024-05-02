@@ -1,12 +1,11 @@
 import helpers from './helpers';
 import classes from './classes';
-import {format, isToday, parseISO} from "date-fns";
-import remove_icon_src from './icons/recycle-bin.png';
-import $, { ajax } from 'jquery';
+import {format, isToday, parseISO} from "date-fns"
+import remove_icon_src from './icons/recycle-bin.png'
+import $, { ajax } from 'jquery'
 
 
 const builder = (()=>{
-
 let members_arr = []
 /*
 create the form for the new group
@@ -244,6 +243,33 @@ function gridClickEventDelegation(e){
         helpers.factoryTaskCard(index,classes.task_array[index],card_element.id)
     }
 }
+function clickListerBetweenDate(e){
+    e.preventDefault()
+    let form = document.getElementById('between-date-form')
+    let form_data = new FormData(form)
+    let date_start
+    let date_end
+    for(let x of form_data){
+        if (x[0] === "start") {
+            let splittedDate = x[1].split('-')
+            if(x[1] === '') {
+                splittedDate = ['1901','01','01']
+            }
+            date_start = format(new Date(splittedDate[0], (splittedDate[1]-1), splittedDate[2]), 'dd/MM/yyyy')
+        }
+        if (x[0] === "end") {
+            let splittedDate = x[1].split('-')
+            if(x[1] === '') {
+                splittedDate = ['1901','01','01']
+            }
+            date_end = format(new Date(splittedDate[0], (splittedDate[1]-1), splittedDate[2]), 'dd/MM/yyyy')
+        }
+    }
+    let between_array = classes.task_array.filter((t) => { 
+        if(helpers.checkDateIsBetween(date_start,date_end,t))
+        return t})
+    buildGrid(between_array)     
+}
 /*
 manage the click events occuring in the header navbar
 */
@@ -302,6 +328,35 @@ function headerClickEventDelegation(e){
             //submit_button.addEventListener('click', submitEnroll)
             enroll_form.append(submit_button)
             helpers.setTextContentById(`enroll-form-submit`,'register')
+        }
+        if(e.target.matches("#header-li-5,#header-list-a-5")){
+            let today_array = classes.task_array.filter((t) => { 
+                if(helpers.checkDateIsToday(t))
+                return t})
+            buildGrid(today_array)        
+        }
+        if(e.target.matches("#header-li-6,#header-list-a-6")){
+            helpers.deleteAllChildrenById('central-div-grid')
+            let between_date_form = helpers.factoryHtmlElement('form', 'central-div-grid','between-date-form', 'form')
+            let label_start = helpers.factoryHtmlElement('label','between-date-form','between-date-label-start')
+            label_start.setAttribute('for','start')
+            helpers.setTextContentById('between-date-label-start','start from')
+            let input_start = helpers.factoryHtmlElement('input','between-date-form','between-date-input-start')
+            input_start.setAttribute('type','date')
+            input_start.setAttribute('name','start')
+            let label_end = helpers.factoryHtmlElement('label','between-date-form','between-date-label-end')
+            label_end.setAttribute('for','end')
+            helpers.setTextContentById('between-date-label-end','until')
+            let input_end = helpers.factoryHtmlElement('input','between-date-form','between-date-input-end')
+            input_end.setAttribute('type','date')
+            input_end.setAttribute('name','end')
+            const submit_button = document.createElement('button')
+            submit_button.setAttribute('id', 'between-date-form-submit-button')
+            submit_button.setAttribute('class', `btn btn-primary submit`)    
+            submit_button.setAttribute('form',`between-date-form`)
+            submit_button.addEventListener('click', clickListerBetweenDate)
+            between_date_form.append(submit_button)
+            helpers.setTextContentById('between-date-form-submit-button','done')   
         }
     }
 }
@@ -405,6 +460,8 @@ function headerBuilder(){
     const header_li1 = helpers.factoryHtmlElement('li','header-ul','header-li-1','nav-item')
     const header_li2 = helpers.factoryHtmlElement('li','header-ul','header-li-2','nav-item')
     const header_li3 = helpers.factoryHtmlElement('li','header-ul','header-li-3','nav-item')
+    const header_li5 = helpers.factoryHtmlElement('li','header-ul','header-li-5','nav-item')
+    const header_li6 = helpers.factoryHtmlElement('li','header-ul','header-li-6','nav-item')
     const header_li4 = helpers.factoryHtmlElement('li','header-ul','header-li-4','nav-item dropdown')
 
     const header_list_a1 = helpers.factoryHtmlElement('a','header-li-1','header-list-a-1','nav-link active')
@@ -416,9 +473,17 @@ function headerBuilder(){
     header_list_a2.setAttribute('href','#')
     helpers.setTextContentById('header-list-a-2','Create group')
     header_list_a3.setAttribute('href','#')
-    helpers.setTextContentById('header-list-a-3','Add Event')
+    helpers.setTextContentById('header-list-a-3','Add event')
     
-    const header_list_a4 = helpers.factoryHtmlElement('a','header-li-4','header-list-a-4','nav-link dropdown-toggle')
+    const header_list_a5 = helpers.factoryHtmlElement('a','header-li-5','header-list-a-5','nav-link active')
+    helpers.setTextContentById('header-list-a-5','Today')
+    header_list_a5.setAttribute('href','#')
+
+    const header_list_a6 = helpers.factoryHtmlElement('a','header-li-6','header-list-a-6','nav-link active')
+    helpers.setTextContentById('header-list-a-6','Filter between')
+    header_list_a6.setAttribute('href','#')
+
+    const header_list_a4 = helpers.factoryHtmlElement('a','header-li-4','header-list-a-4','nav-link active dropdown-toggle')
     header_list_a4.setAttribute('href','#')
     header_list_a4.setAttribute('role','button')
     header_list_a4.setAttribute('data-bs-toggle','dropdown')

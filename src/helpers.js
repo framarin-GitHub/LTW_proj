@@ -2,6 +2,8 @@ import delete_icon_src from './icons/recycle-bin.png'
 import edit_icon_src from './icons/edit.png'
 import status_icon_src from './icons/statusicon.svg'
 import classes from './classes'
+import {format, isToday, parseISO, isAfter, isBefore} from "date-fns"
+
 
 
 
@@ -121,10 +123,25 @@ const helpers = (() => {
         }
         return form
     }
+    const checkDateIsToday = (task) => {
+        let date_arr = task.date.split('/')
+        let date_conv = new Date(date_arr[2],(date_arr[1]-1),date_arr[0])
+        return isToday(date_conv)
+    }
+    const checkDateIsBetween = (start,end,task) => {
+        let date_task_arr = task.date.split('/')
+        let date_start_arr = start.split('/')
+        let date_end_arr = end.split('/')
+        let date_task_conv = new Date(date_task_arr[2],(date_task_arr[1]-1),date_task_arr[0])
+        let date_start_conv = new Date(date_start_arr[2],(date_start_arr[1]-1),date_start_arr[0])
+        let date_end_conv = new Date(date_end_arr[2],(date_end_arr[1]-1),date_end_arr[0])
+        return isAfter(date_task_conv,date_start_conv) && isBefore(date_task_conv,date_end_conv)
+    }
+
     const deleteAllChildrenById = (id_container) => {
         const e = document.getElementById(`${id_container}`)
         e.innerHTML = "";
     }
-    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryTaskForm,deleteAllChildrenById,factoryMinifiedCard}
+    return {factoryHtmlElement,setTextContentById,createHookContent,factoryTaskCard,factoryTaskForm,deleteAllChildrenById,factoryMinifiedCard,checkDateIsToday,checkDateIsBetween}
 })()
 export default helpers
