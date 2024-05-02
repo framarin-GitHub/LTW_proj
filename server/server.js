@@ -1,5 +1,5 @@
 //be sure to have node version 20^
-//use node --env-file= <>.env <>.js
+//use @shell node --env-file= <>.env <>.js
 const http=require('http') 
 
 
@@ -22,7 +22,7 @@ let server = http.createServer((request,response) => {
           response.end()
         })
       }
-    if (request.method == 'GETs') {
+    if (request.method == 'GET') {
       response.writeHead(200, headers);
       response.write('get method hello world')
     }
