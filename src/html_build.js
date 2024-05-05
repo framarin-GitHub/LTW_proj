@@ -442,7 +442,7 @@ function headerBuilder(){
     header_nav.addEventListener('click', headerClickEventDelegation)
     parent.append(header_nav)
     
-    const header_div1 = helpers.factoryHtmlElement('div','header-nav','header-div-1','container-fluid')
+    const header_div1 = helpers.factoryHtmlElement('div','header-nav','header-div-1','container-fluid bg-dark')
     const header_a = helpers.factoryHtmlElement('a','header-div-1','header-a','navbar-brand')
     header_a.setAttribute('href','index.html')
     helpers.setTextContentById('header-a','PLAN YOUR MEETINGS')
@@ -491,7 +491,7 @@ function headerBuilder(){
     helpers.setTextContentById('header-list-a-4','Groups')
     const header_ul_dropdown = helpers.factoryHtmlElement('ul','header-li-4','header-ul-dropdown','dropdown-menu')
 
-    const header_div2 = helpers.factoryHtmlElement('div','header-nav','header-div-2','container-fluid')
+    const header_div2 = helpers.factoryHtmlElement('div','header-nav','header-div-2','container-fluid bg-dark')
     const header_sign_in = helpers.factoryHtmlElement('button', 'header-div-2', 'header-sign-in', 'btn btn-outline-light')
     helpers.setTextContentById('header-sign-in','sign in')
     const header_enroll = helpers.factoryHtmlElement('button', 'header-div-2', 'header-enroll', 'btn btn-dark')
