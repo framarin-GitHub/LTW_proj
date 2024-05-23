@@ -114,6 +114,7 @@ display the events card based on the given array
 */
 function buildGrid(task_array_to_build,group_page = false){
     helpers.deleteAllChildrenById('central-div-grid')
+    el.active_big_card = ''
     let c = 0
     buildDropdown()
     if(group_page){

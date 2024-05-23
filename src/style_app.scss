@@ -49,13 +49,20 @@ button > .icon{
     height: 15rem; 
     transition: box-shadow 1s ease-out;
 }
+.card-body > p:first-of-type{
+    max-height: 100px;
+    overflow: scroll;
+}
+.card-animation > .card-body > p:first-of-type{
+    max-height: 450px;
+}
 /*
 classes for transformation
 */
-.card.card-animation{
-    font-size: 30px;
-    width: 30rem;
-    height: 30rem;
+#central-div-grid > .card.card-animation{
+    font-size: 24px;
+    width: 40rem;
+    height: 40rem;
     display: block;
     z-index: 1000;
     position: absolute;
@@ -74,7 +81,7 @@ classes for transformation
           opacity: 1;
         }   
     }
-    box-shadow: 20px 20px 50px 15px grey;
+    box-shadow: 20px 20px 50px 20px black;
 }
 #central-div-grid.central-grid-animation{
     background-color: darkgray;
@@ -97,13 +104,21 @@ classes for transformation
     width: 30%;
     align-items: center;
 }
-.card > .label{
-    display: block;
+.form .description-input{
+    min-height: 70px;
+}
+.card-animation > .form .description-input{
+    min-height: 400px;
+}
+.form .form-group {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: column;
 }
 .card .form .submit {
     margin-top: auto;
 }
-
 .card .button{
     margin-top: auto;
     display: inline-flex;

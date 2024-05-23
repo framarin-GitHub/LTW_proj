@@ -6,6 +6,7 @@ import $, { ajax } from 'jquery'
 import builder from './html_build'
 const el = (() => {
     let members_arr = []
+    let active_big_card = ''
     /*
     create the form for the new group
     */
@@ -153,6 +154,7 @@ const el = (() => {
         }
         const to_add_task = new classes.Task(title, group_title, description, date, false)
         classes.task_array[index] = to_add_task
+        active_big_card = ''
         builder.buildGrid(classes.task_array)
     }
     /*
@@ -202,45 +204,61 @@ const el = (() => {
     }
     function clickDeleteButton(index){
         classes.task_array.splice(index , 1)
+        active_big_card = ''
         builder.buildGrid(classes.task_array)
     }
     function clickStatusButton(index){
-        classes.task_array[index].toggleDone()
-        builder.buildGrid(classes.task_array)
+        let task = classes.task_array[index]
+        task.toggleDone()
+        let status = document.getElementById(`card-status-${index}`)
+        status.classList.add((task.is_done)?'isDone':'isNotDone')
+        status.classList.remove(!(task.is_done)?'isDone':'isNotDone')
     }
     /*
     manage the click events occuring in the cards inside the grid
     */
     const gridClickEventDelegation = (e) => {
-        if(e.target && e.target.matches(".card .icon")){
-            const target_button = e.target.parentNode
-            let target_id = target_button.id
-            let index = target_id.slice(-1)
-
-            if(target_button.matches(".button.edit")){
-                clickEditButton(index)
+        if(e.target){
+            if(e.target.matches(".card .icon")){
+                const target_button = e.target.parentNode
+                let target_id = target_button.id
+                let index = target_id.slice(-1)
+    
+                if(target_button.matches(".button.edit")){
+                    clickEditButton(index)
+                }
+                if(target_button.matches(".button.delete")){
+                    clickDeleteButton(index)
+                }
+                if(target_button.matches(".button.status")){
+                    clickStatusButton(index)
+                }
+                return
             }
-            if(target_button.matches(".button.delete")){
-                clickDeleteButton(index)
+            if(e.target.matches(".card-body , .card-title, .card-text")){
+                let card_id = e.target.id
+                let index = card_id.slice(-1)
+                console.log(active_big_card)
+                if(active_big_card == '' || active_big_card == index){
+                    if(active_big_card == index)
+                        active_big_card = ''
+                    else
+                        active_big_card = index
+                    $(`#card-div-${index}`).toggleClass('card-animation');
+                    $('#central-div-grid').toggleClass('central-grid-animation');
+                } 
+                return       
             }
-            if(target_button.matches(".button.status")){
-                clickStatusButton(index)
+            if(e.target.matches(".mini-title")){
+                let target_id = e.target.id
+                let card_element = e.target.parentNode
+                card_element.classList.remove('card-mini')
+                helpers.deleteAllChildrenById(card_element.id)
+                let index = target_id.slice(-1)
+                card_element.id = `card-div-${index}`
+                helpers.factoryTaskCard(index,classes.task_array[index],card_element.id)
+                return
             }
-        }
-        if(e.target && e.target.matches(".card-body , .card-title, .card-text")){
-            let card_id = e.target.id
-            let index = card_id.slice(-1)
-            $(`#card-div-${index}`).toggleClass('card-animation');
-            $('#central-div-grid').toggleClass('central-grid-animation');
-        }
-        if(e.target && e.target.matches(".mini-title")){
-            let target_id = e.target.id
-            let card_element = e.target.parentNode
-            card_element.classList.remove('card-mini')
-            helpers.deleteAllChildrenById(card_element.id)
-            let index = target_id.slice(-1)
-            card_element.id = `card-div-${index}`
-            helpers.factoryTaskCard(index,classes.task_array[index],card_element.id)
         }
     }
     function clickListerBetweenDate(e){
@@ -277,9 +295,11 @@ const el = (() => {
         if(e.target){
             if(e.target.matches("#header-li-1,#header-list-a-1")){
                 builder.buildGrid(classes.task_array)
+                return
             }
             if(e.target.matches("#header-li-2,#header-list-a-2")){
                 const create_group_form = createGroupForm('central-div-grid','create-group-form')
+                return
             }
             if(e.target.matches("#header-li-3,#header-list-a-3")){
                 const create_new_task_form = helpers.factoryTaskForm('central-div-grid','create-new-task-form',null)
@@ -290,12 +310,14 @@ const el = (() => {
                 submit_button.addEventListener('click', clickListenerCreateTask)
                 create_new_task_form.append(submit_button)
                 helpers.setTextContentById('create-new-task-form-submit-button','done')
+                return
             }
             if(e.target.matches("#header-ul-dropdown a")){
                 let target_id = e.target.id.slice(-1)
                 let selected_group = classes.group_array[target_id]
                 let array_filtered = classes.task_array.filter((t) => t.group_title === `${selected_group.group_title}`)
                 builder.buildGrid(array_filtered,true)
+                return
             }
             if(e.target.matches("#header-enroll")){
                 const enroll_div = helpers.factoryHtmlElement('div','hook','enroll-div','card text-center')
@@ -328,12 +350,14 @@ const el = (() => {
                 //submit_button.addEventListener('click', submitEnroll)
                 enroll_form.append(submit_button)
                 helpers.setTextContentById(`enroll-form-submit`,'register')
+                return
             }
             if(e.target.matches("#header-li-5,#header-list-a-5")){
                 let today_array = classes.task_array.filter((t) => { 
                     if(helpers.checkDateIsToday(t))
                     return t})
                 builder.buildGrid(today_array)        
+                return
             }
             if(e.target.matches("#header-li-6,#header-list-a-6")){
                 helpers.deleteAllChildrenById('central-div-grid')
@@ -356,7 +380,8 @@ const el = (() => {
                 submit_button.setAttribute('form',`between-date-form`)
                 submit_button.addEventListener('click', clickListerBetweenDate)
                 between_date_form.append(submit_button)
-                helpers.setTextContentById('between-date-form-submit-button','done')   
+                helpers.setTextContentById('between-date-form-submit-button','done') 
+                return  
             }
         }
     }
@@ -364,12 +389,15 @@ const el = (() => {
         if(e.target){
             if(e.target.matches("#footer-fetch")){
                 clickFetch(e)
+                return
             }
             if(e.target.matches("#footer-save")){
                 clickSave()
+                return
             }
             if(e.target.matches("#footer-clear")){
                 clickClear()
+                return
             }
         }
     }
@@ -417,6 +445,7 @@ const el = (() => {
                 let group_to_del = new classes.Group(group_title)
                 group_to_del.deleteGroup()
                 builder.buildGrid(classes.task_array)
+                return
             }
         }
     }

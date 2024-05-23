@@ -86,7 +86,7 @@ const helpers = (() => {
         const description_lbl = factoryHtmlElement('label', `${id_form}-desc-div`, `${id_form}-description-lbl`, 'label')
         helpers.setTextContentById(`${id_form}-description-lbl`,'description')
         description_lbl.setAttribute('for','description')
-        const input_description = factoryHtmlElement('input', `${id_form}-desc-div`,`${id_form}-description-input`, 'input')
+        const input_description = factoryHtmlElement('textarea', `${id_form}-desc-div`,`${id_form}-description-input`, 'input description-input')
         input_description.setAttribute('type', 'text')
         input_description.setAttribute('name','description')
 
@@ -118,7 +118,7 @@ const helpers = (() => {
                 let date_input = `${date_split[2]}-${date_split[1]}-${date_split[0]}`
                 input_date.setAttribute('value', `${date_input}`)
             }
-            input_description.setAttribute('value', `${task.description}`)
+            input_description.textContent =  `${task.description}`
             input_title.setAttribute('value', `${task.title}`)
         }
         return form
@@ -137,7 +137,6 @@ const helpers = (() => {
         let date_end_conv = new Date(date_end_arr[2],(date_end_arr[1]-1),date_end_arr[0])
         return isAfter(date_task_conv,date_start_conv) && isBefore(date_task_conv,date_end_conv)
     }
-
     const deleteAllChildrenById = (id_container) => {
         const e = document.getElementById(`${id_container}`)
         e.innerHTML = "";
