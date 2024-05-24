@@ -2,7 +2,7 @@ import helpers from './helpers';
 import classes from './classes';
 import {format, isToday, parseISO} from "date-fns"
 import remove_icon_src from './icons/recycle-bin.png'
-import $, { ajax } from 'jquery'
+import $ from 'jquery'
 import el from './event_listeners.js'
 
 const builder = (()=>{
@@ -64,7 +64,7 @@ function headerBuilder(){
     const header_list_a2 = helpers.factoryHtmlElement('a','header-li-2','header-list-a-2','nav-link active')
     const header_list_a3 = helpers.factoryHtmlElement('a','header-li-3','header-list-a-3','nav-link active')
     header_list_a1.setAttribute('aria-current','page')
-    header_list_a1.setAttribute('href','app.html')
+    header_list_a1.setAttribute('href','#')
     helpers.setTextContentById('header-list-a-1','Home')
     header_list_a2.setAttribute('href','#')
     helpers.setTextContentById('header-list-a-2','Create group')
@@ -114,7 +114,6 @@ display the events card based on the given array
 */
 function buildGrid(task_array_to_build,group_page = false){
     helpers.deleteAllChildrenById('central-div-grid')
-    el.active_big_card = ''
     let c = 0
     buildDropdown()
     if(group_page){
@@ -159,7 +158,7 @@ function buildGroupLatBar(group_title){
         helpers.setTextContentById(`lat-bar-member-${counter}`,`${m}`)
         counter++
     }
-    helpers.factoryHtmlElement('button','lat-bar-div','lat-bar-delete-button','btn btn-primary')
+    helpers.factoryHtmlElement('button','lat-bar-div','lat-bar-delete-button','btn btn-secondary')
     helpers.setTextContentById('lat-bar-delete-button', 'delete')
 }
 

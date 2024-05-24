@@ -74,36 +74,40 @@ const helpers = (() => {
         form.classList.add('form')
 
 
-        factoryHtmlElement('div', `${id_form}`, `${id_form}-title-div`, 'form-group')
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-title-div`, 'form-floating')
+        const input_title = factoryHtmlElement('input', `${id_form}-title-div`, `${id_form}-title-input`, 'input form-control')
+        input_title.setAttribute('type', 'text')
+        input_title.setAttribute('name','title')
+        input_title.setAttribute('placeholder','')
         const title_lbl = factoryHtmlElement('label', `${id_form}-title-div`, `${id_form}-title-lbl`, 'label')
         title_lbl.setAttribute('for','title')
         helpers.setTextContentById(`${id_form}-title-lbl`,'title')
-        const input_title = factoryHtmlElement('input', `${id_form}-title-div`, `${id_form}-title-input`, 'input')
-        input_title.setAttribute('type', 'text')
-        input_title.setAttribute('name','title')
+
         
-        factoryHtmlElement('div', `${id_form}`, `${id_form}-desc-div`, 'form-group')
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-desc-div`, 'form-floating')
+        const input_description = factoryHtmlElement('textarea', `${id_form}-desc-div`,`${id_form}-description-input`, 'input description-input form-control')
+        input_description.setAttribute('type', 'text')
+        input_description.setAttribute('name','description')
+        input_description.setAttribute('placeholder','')
         const description_lbl = factoryHtmlElement('label', `${id_form}-desc-div`, `${id_form}-description-lbl`, 'label')
         helpers.setTextContentById(`${id_form}-description-lbl`,'description')
         description_lbl.setAttribute('for','description')
-        const input_description = factoryHtmlElement('textarea', `${id_form}-desc-div`,`${id_form}-description-input`, 'input description-input')
-        input_description.setAttribute('type', 'text')
-        input_description.setAttribute('name','description')
 
-        factoryHtmlElement('div', `${id_form}`, `${id_form}-date-div`, 'form-group')
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-date-div`, 'form-floating')
+        const input_date = factoryHtmlElement('input', `${id_form}-date-div`, `${id_form}-date-input`, 'input form-control')
+        input_date.setAttribute('type', 'date')
+        input_date.setAttribute('name','date')
+        input_date.setAttribute('placeholder','')
         const date_lbl = factoryHtmlElement('label', `${id_form}-date-div`, `${id_form}-date-lbl`, 'label')
         helpers.setTextContentById(`${id_form}-date-lbl`,'date')
         date_lbl.setAttribute('for','date')
-        const input_date = factoryHtmlElement('input', `${id_form}-date-div`, `${id_form}-date-input`, 'input')
-        input_date.setAttribute('type', 'date')
-        input_date.setAttribute('name','date')
 
-        const group_select = factoryHtmlElement('select',`${id_form}`, `${id_form}-select`)
+        factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-floating')
+        const group_select = factoryHtmlElement('select',`${id_form}-group-div`, `${id_form}-select`,'form-select')
         const default_option = factoryHtmlElement('option', `${id_form}-select`, `${id_form}-option-default`)
         default_option.setAttribute('selected',true)
         default_option.setAttribute('value','')
-        setTextContentById(`${id_form}-option-default`, 'select a group')
-        
+        setTextContentById(`${id_form}-option-default`, 'select a group')        
         let counter = 0
         for(let x of classes.group_array){
             const option = factoryHtmlElement('option', `${id_form}-select`, `${id_form}-option-${counter}`)
@@ -111,6 +115,9 @@ const helpers = (() => {
             setTextContentById(`${id_form}-option-${counter}`, `${x.group_title}`)
             counter++
         }
+        const group_lbl = factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-group-lbl`, 'label')
+        helpers.setTextContentById(`${id_form}-group-lbl`,'select a group')
+        group_lbl.setAttribute('for',`${id_form}-select`)
 
         if(task != null) {  
             if(task.date != null ) {

@@ -45,8 +45,8 @@ button > .icon{
     height: auto;
 }
 #central-div-grid > .card{
-    width: 15rem;
-    height: 15rem; 
+    width: 20rem;
+    height: 20rem; 
     transition: box-shadow 1s ease-out;
 }
 .card-body > p:first-of-type{
@@ -61,8 +61,8 @@ classes for transformation
 */
 #central-div-grid > .card.card-animation{
     font-size: 24px;
-    width: 40rem;
-    height: 40rem;
+    width: 45rem;
+    height: 45rem;
     display: block;
     z-index: 1000;
     position: absolute;
@@ -100,7 +100,7 @@ classes for transformation
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 30%;
+    height: 100%;
     width: 30%;
     align-items: center;
 }
@@ -130,6 +130,9 @@ classes for transformation
 .member-div .icon{
     margin-left: auto;
 }
+.card-animation .form .label {
+    font-size: small;
+}
 //classes for status button
 button.isDone {
     background-color: green;
@@ -142,6 +145,9 @@ button.isNotDone {
     background-color: rgb(226, 207, 171);
     padding: 10px;
     margin-right: 10px;
+    margin-left: -100px;
+    margin-top: -100px;
+    height: fit-content;
 }
 
 #enroll-div{

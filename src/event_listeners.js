@@ -19,26 +19,26 @@ const el = (() => {
         parent.append(form)
         form.classList.add('form')
 
-        helpers.factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-group')
-        const group_title_lbl = helpers.factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-group-lbl`, 'label')
-        group_title_lbl.setAttribute('for','group')
-        helpers.setTextContentById(`${id_form}-group-lbl`,'group')
-        const input_group_title = helpers.factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-group-input`, 'input')
+        helpers.factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-floating')
+        const input_group_title = helpers.factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-group-input`, 'input form-control')
         input_group_title.setAttribute('type', 'text')
         input_group_title.setAttribute('name','group')     
         input_group_title.setAttribute('value', 'new group name')
+        const group_title_lbl = helpers.factoryHtmlElement('label', `${id_form}-group-div`, `${id_form}-group-lbl`, 'label')
+        group_title_lbl.setAttribute('for','group')
+        helpers.setTextContentById(`${id_form}-group-lbl`,'group')
 
 
         const add_member_button = document.createElement('button')
         add_member_button.setAttribute('id', `${id_form}-add-button`)
-        add_member_button.setAttribute('class', `btn btn-primary add`)    
+        add_member_button.setAttribute('class', `btn btn-secondary add`)    
         add_member_button.addEventListener('click', clickListenerAddMember)
         form.append(add_member_button)
         helpers.setTextContentById(`${id_form}-add-button`,'+ add member')
         
         const submit_button = document.createElement('button')
         submit_button.setAttribute('id', `${id_form}-submit-button`)
-        submit_button.setAttribute('class', `btn btn-primary submit`)    
+        submit_button.setAttribute('class', `btn btn-secondary submit`)    
         submit_button.setAttribute('form',`${id_form}`)
         submit_button.addEventListener('click', clickListenerCreateGroup)
         form.append(submit_button)
@@ -196,7 +196,7 @@ const el = (() => {
         const edit_form = helpers.factoryTaskForm(`card-div-${index}`,`edit-form-${index}`,classes.task_array[index])
         const submit_button = document.createElement('button')
         submit_button.setAttribute('id', `edit-button-form-${index}`)
-        submit_button.setAttribute('class', `btn btn-primary submit`)    
+        submit_button.setAttribute('class', `btn btn-secondary submit`)    
         submit_button.setAttribute('form',`edit-form-${index}`)
         submit_button.addEventListener('click', clickListenerEditTask)
         edit_form.append(submit_button)
@@ -235,7 +235,7 @@ const el = (() => {
                 }
                 return
             }
-            if(e.target.matches(".card-body , .card-title, .card-text")){
+            if(e.target.matches(".card-body , .card-title, .card-text") && !e.target.matches(".card-mini , .mini-title")){
                 let card_id = e.target.id
                 let index = card_id.slice(-1)
                 console.log(active_big_card)
@@ -261,7 +261,7 @@ const el = (() => {
             }
         }
     }
-    function clickListerBetweenDate(e){
+    function clickListenerBetweenDate(e){
         e.preventDefault()
         let form = document.getElementById('between-date-form')
         let form_data = new FormData(form)
@@ -305,7 +305,7 @@ const el = (() => {
                 const create_new_task_form = helpers.factoryTaskForm('central-div-grid','create-new-task-form',null)
                 const submit_button = document.createElement('button')
                 submit_button.setAttribute('id', 'create-new-task-form-submit-button')
-                submit_button.setAttribute('class', `btn btn-primary submit`)    
+                submit_button.setAttribute('class', `btn btn-secondary submit`)    
                 submit_button.setAttribute('form',`create-new-task-form`)
                 submit_button.addEventListener('click', clickListenerCreateTask)
                 create_new_task_form.append(submit_button)
@@ -345,7 +345,7 @@ const el = (() => {
 
                 const submit_button = document.createElement('button')
                 submit_button.setAttribute('id', `enroll-form-submit`)
-                submit_button.setAttribute('class', `btn btn-primary submit`)    
+                submit_button.setAttribute('class', `btn btn-secondary submit`)    
                 submit_button.setAttribute('form',`enroll-form`)
                 //submit_button.addEventListener('click', submitEnroll)
                 enroll_form.append(submit_button)
@@ -376,9 +376,9 @@ const el = (() => {
                 input_end.setAttribute('name','end')
                 const submit_button = document.createElement('button')
                 submit_button.setAttribute('id', 'between-date-form-submit-button')
-                submit_button.setAttribute('class', `btn btn-primary submit`)    
+                submit_button.setAttribute('class', `btn btn-secondary submit`)    
                 submit_button.setAttribute('form',`between-date-form`)
-                submit_button.addEventListener('click', clickListerBetweenDate)
+                submit_button.addEventListener('click', clickListenerBetweenDate)
                 between_date_form.append(submit_button)
                 helpers.setTextContentById('between-date-form-submit-button','done') 
                 return  
