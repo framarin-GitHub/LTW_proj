@@ -408,8 +408,9 @@ const el = (() => {
             mode:'cors',
             method: 'POST',
             body : JSON.stringify({
-                username: "mock",
-                password: "psw"
+                group_name: "UN GRUPPO",
+                members: ["MEMBRO","SECONDO"],
+                events: ["NOMEEV"],
             })
         })
         .then((response)=>{
