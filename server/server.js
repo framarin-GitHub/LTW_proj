@@ -37,10 +37,23 @@ const DBAddNewGroup = async (new_group) =>{
 const DBReplaceGroup = async (cod,new_group) =>{
   try{
     await Group.replaceOne({_id : cod}, new_group)
-    console.log(cod)
   } catch (error) {console.log(error)}
 }
-
+const DBDeleteGroup = async (group_to_del) =>{
+  try{
+    await Group.deleteOne(group_to_del)
+  } catch (error) {console.log(error)}
+}
+const DBFindGroupByMember = async (member) =>{
+  try{
+    let arr_matches = await Group.find({members : `${member}`})
+    let group_arr_matches = arr_matches.map((document) => {
+      document = document.group_name
+    })
+    console.log(group_arr_matches)
+    return groups_arr_matches
+  } catch (error) {console.log(error)}
+}
 
 let server = http.createServer((req,res) => {
     const headers = {
@@ -50,7 +63,7 @@ let server = http.createServer((req,res) => {
       }
     if (req.method == 'POST') {
         res.writeHead(200, headers)
-        res.write('post method')
+        res.write('ADD OR UPDATE GROUP')
 
         let body = ''
         req.on('data', (chunk) => {
@@ -67,8 +80,30 @@ let server = http.createServer((req,res) => {
         })
       }
     if (req.method == 'GET') {
-      res.writeHead(200, headers);
-      res.write('get method hello world')
+      res.writeHead(200, headers)
+      res.write('GET GROUPS BY MEMBER')
+      let body = ''
+        req.on('data', (chunk) => {
+            body += chunk;
+      })
+      req.on('end', async() => {
+        let body = JSON.parse(body)
+        let member = body.member
+        let group_arr_matches = DBFindGroupByMember(member)
+        res.write(JSON.stringify(group_arr_matches))
+      })
+    }
+    if (req.method == 'DELETE') {
+      res.writeHead(200, headers)
+      res.write('DELETE GROUP')
+      let body = ''
+        req.on('data', (chunk) => {
+            body += chunk;
+        })
+        req.on('end', async() => {
+          let group_to_del = JSON.parse(body)
+          DBDeleteGroup(group_to_del)
+        })
     }
     res.end()
 })
