@@ -158,6 +158,8 @@ function buildGroupLatBar(group_title){
         helpers.setTextContentById(`lat-bar-member-${counter}`,`${m}`)
         counter++
     }
+    helpers.factoryHtmlElement('button','lat-bar-div','lat-bar-push-button','btn btn-secondary')
+    helpers.setTextContentById('lat-bar-push-button', 'push')
     helpers.factoryHtmlElement('button','lat-bar-div','lat-bar-delete-button','btn btn-secondary')
     helpers.setTextContentById('lat-bar-delete-button', 'delete')
 }

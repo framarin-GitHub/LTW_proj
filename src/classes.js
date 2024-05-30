@@ -14,9 +14,9 @@ const task = (() => {
         }
     }
     class Group {
-        constructor(group_title, ...members){
+        constructor(group_title, members){
             this.group_title = group_title
-            this.members = [...members]
+            this.members = members
         }
         isMember(person){
             for(let x of this.members){

@@ -51,9 +51,6 @@ const el = (() => {
         
         return form
     }
-    /*
-    create the form for the new group
-    */
     function clickListenerCreateGroup(e){
         const form = document.getElementById('create-group-form')
         const form_data = new FormData(form)
@@ -78,9 +75,6 @@ const el = (() => {
         members_arr.splice(index,1)
         div_container.removeChild(div_parent) 
     }
-    /*
-    add the new member to the list 
-    */
     function submitListenerAddMember(e){
         e.preventDefault()
         let length = members_arr.length
@@ -112,9 +106,6 @@ const el = (() => {
         }
 
     }  
-    /*
-    create the form for the new member
-    */   
     function clickListenerAddMember(e){
         const member_div = helpers.factoryHtmlElement('div', 'group-card-body',`group-card-member-div-${members_arr.length}`,'card-text member-div')
         const form = document.createElement('form')
@@ -125,9 +116,9 @@ const el = (() => {
         const input_member = helpers.factoryHtmlElement('input', `group-card-add-form-${members_arr.length}`, `group-card-input-${members_arr.length}`)
         input_member.setAttribute('type', 'text')
         input_member.setAttribute('name','member')
-    }
+    }    
     /*
-    replace the old task with new info
+    create the form for the new task
     */
     function clickListenerEditTask(e){
         let index = e.target.id.slice(-1)
@@ -157,9 +148,7 @@ const el = (() => {
         active_big_card = ''
         builder.buildGrid(classes.task_array)
     }
-    /*
-    create the form for the new task
-    */
+
     function clickListenerCreateTask(e){
         let index = classes.task_array.length
         const form = document.getElementById('create-new-task-form')
@@ -187,10 +176,6 @@ const el = (() => {
         classes.task_array.push(to_add_task)
         builder.buildGrid(classes.task_array)
     }
-
-    /*
-    create the form for editing task
-    */
     function clickEditButton(index){
         helpers.deleteAllChildrenById(`card-div-${index}`)
         const edit_form = helpers.factoryTaskForm(`card-div-${index}`,`edit-form-${index}`,classes.task_array[index])
@@ -251,16 +236,22 @@ const el = (() => {
             }
             if(e.target.matches(".mini-title")){
                 let target_id = e.target.id
+                let title = e.target.textContent
+                let task = classes.task_array.filter((t) => t.title == title)
+                task = task[0]
                 let card_element = e.target.parentNode
                 card_element.classList.remove('card-mini')
                 helpers.deleteAllChildrenById(card_element.id)
                 let index = target_id.slice(-1)
                 card_element.id = `card-div-${index}`
-                helpers.factoryTaskCard(index,classes.task_array[index],card_element.id)
+                helpers.factoryTaskCard(index,task,card_element.id)
                 return
             }
         }
-    }
+    }    
+    /*
+    manage the click events occuring in the header navbar
+    */
     function clickListenerBetweenDate(e){
         e.preventDefault()
         let form = document.getElementById('between-date-form')
@@ -288,9 +279,6 @@ const el = (() => {
             return t})
         builder.buildGrid(between_array)     
     }
-    /*
-    manage the click events occuring in the header navbar
-    */
     const headerClickEventDelegation = (e) => {
         if(e.target){
             if(e.target.matches("#header-li-1,#header-list-a-1")){
@@ -385,6 +373,9 @@ const el = (() => {
             }
         }
     }
+    /*
+    manage the click events occuring in the footer navbar
+    */
     const footerClickEventDelegation = (e) => {
         if(e.target){
             if(e.target.matches("#footer-fetch")){
@@ -438,12 +429,61 @@ const el = (() => {
     function clickClear(){
         localStorage.clear()
     }
+    /*
+    manage the click events occuring in the single group section
+    */
+    async function  ServerDeleteGroup(group_to_del){
+        console.log("deleting...")
+        const url = new URL("http://localhost:8080")
+        fetch(url, {
+            mode:'cors',
+            method: 'DELETE',
+            body : JSON.stringify({
+                group_name: group_to_del.group_name,
+            })
+        })
+        .then((response)=>{
+            return response.text()
+        })
+        .then((value) => {
+            console.log(value)
+        })
+    }
+    async function  ServerPushGroup(group_to_push){
+        console.log("push...")
+        const url = new URL("http://localhost:8080")
+        let events_arr = classes.task_array.filter((task) => group_to_push.group_title == task.group_title)
+        fetch(url, {
+            mode:'cors',
+            method: 'POST',
+            body : JSON.stringify({
+                group_name: group_to_push.group_title,
+                members: group_to_push.members,
+                events: events_arr,
+            })
+        })
+        .then((response)=>{
+            return response.text()
+        })
+        .then((value) => {
+            console.log(value)
+        })
+    }
     const latBarClickEventDelegation = (e) => {
         if(e.target){
+            if(e.target.matches("#lat-bar-push-button")){
+                let title_p = document.getElementById('lat-bar-p-title')
+                let group_title = title_p.textContent
+                let group_to_push = classes.group_array.filter((group) => group_title == group.group_title)
+                group_to_push = group_to_push[0]
+                ServerPushGroup(group_to_push)
+            }
             if(e.target.matches("#lat-bar-delete-button")){
                 let title_p = document.getElementById('lat-bar-p-title')
                 let group_title = title_p.textContent
-                let group_to_del = new classes.Group(group_title)
+                let group_to_del = classes.group_array.filter((group) => group_title == group.group_title)
+                group_to_del = group_to_del[0]
+                ServerDeleteGroup(group_to_del)
                 group_to_del.deleteGroup()
                 builder.buildGrid(classes.task_array)
                 return
