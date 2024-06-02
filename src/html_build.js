@@ -106,8 +106,8 @@ function footerBuilder(){
     helpers.setTextContentById('footer-clear','clear')
     const header_save = helpers.factoryHtmlElement('button', 'footer-nav', 'footer-save', 'btn btn-dark')
     helpers.setTextContentById('footer-save','save')
-    const header_fetch = helpers.factoryHtmlElement('button', 'footer-nav', 'footer-fetch', 'btn btn-dark')
-    helpers.setTextContentById('footer-fetch','fetch')
+    const header_fetch = helpers.factoryHtmlElement('button', 'footer-nav', 'footer-notification', 'btn btn-dark')
+    helpers.setTextContentById('footer-notification','notification')
 }
 /*
 display the events card based on the given array

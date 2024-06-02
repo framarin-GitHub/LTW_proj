@@ -11,6 +11,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Calendar',
       filename: 'app.html',
+      chunks: ['index'],
     }),
     new HtmlWebpackPlugin({
       title: 'LTW_proj_homepage',

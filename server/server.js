@@ -36,11 +36,13 @@ const account_schema = mongoose.Schema({
 })
 const Account = mongoose.model("Account", account_schema)
 
-DBConnect().catch((err) => console.log(err))
-async function DBConnect() {
-  await mongoose.connect(uri)
-  console.log("connecting to db")
+function DBConnect() {
+  mongoose.connect(uri)
+  .then(() => {
+    console.log("connected to MongoDB")
+  })
 }
+DBConnect()
 const db_connection = mongoose.connection
 db_connection.on("error", (err) => console.log(err))
 
@@ -62,12 +64,7 @@ const DBDeleteGroup = async (group_to_del) =>{
 }
 const DBFindGroupByMember = async (member) =>{
   try{
-    let arr_matches = await Group.find({members : `${member}`})
-    let group_arr_matches = arr_matches.map((document) => {
-      document = document.group_name
-    })
-    console.log(group_arr_matches)
-    return groups_arr_matches
+    return await Group.find({ members: { "$in" : [`${member}`]} })
   } catch (error) {console.log(error)}
 }
 //ACCOUNT METHODS
@@ -85,8 +82,11 @@ const DBEnrollAccount = async (new_account) =>{
 }
 const DBCheckCredentialsAccount = async (account) =>{
   try{
-    db_account = await Account.find({email: account.email})
-    return db_account.password == account.password
+    db_account = await Account.findOne({email: account.email})
+    if(db_account.password == account.password)
+      return db_account
+    else
+      return -1
   } catch (error) {console.log(error)}
 }
 
@@ -104,27 +104,27 @@ let server = http.createServer((req,res) => {
         req.on('data', (chunk) => {
             body += chunk;
         })
-        req.on('end', async() => {
+        req.on('end', () => {
           let new_group = JSON.parse(body)
-          let cod = await Group.exists({group_name:new_group.group_name})
-          if(cod)
-            DBReplaceGroup(cod,new_group)
-          else
-            DBAddNewGroup(new_group)
+          Group.exists({group_name:new_group.group_name})
+          .then((cod) =>{
+            if(cod)
+              DBReplaceGroup(cod,new_group)
+            else
+              DBAddNewGroup(new_group)
+          })
         })
       }
     if (req.method == 'GET') {
       res.writeHead(200, headers)
-      res.write('GET GROUPS BY MEMBER')
-      let body = ''
-        req.on('data', (chunk) => {
-            body += chunk;
-      })
-      req.on('end', async() => {
-        let body = JSON.parse(body)
-        let member = body.member
-        let group_arr_matches = DBFindGroupByMember(member)
-        res.write(JSON.stringify(group_arr_matches))
+
+      let member = req.url.slice(1);
+      DBFindGroupByMember(member)
+      .then((arr_matches)=>{
+        arr_matches.forEach((istance)=>{
+          res.write(JSON.stringify(istance))
+        })
+        res.end()
       })
     }
     if (req.method == 'DELETE') {
@@ -141,31 +141,48 @@ let server = http.createServer((req,res) => {
     }
     if (req.method == 'PUT') {
       res.writeHead(200, headers)
+      
       let body = ''
       req.on('data', (chunk) => {
         body += chunk;
       })
-      req.on('end', async() => {
+      req.on('end', () => {
         account = JSON.parse(body)
         if(account.enrollement){
           delete account.enrollement
-          let flag = DBEnrollAccount(account)
-          if(flag == -1)
-            res.write("email or username already used")
+          DBEnrollAccount(account)
+          .then((flag)=>{
+            if(flag == -1)
+              res.write("email or username already used")
+            else
+              res.write("registration ok")
+            res.end()
+          })
         }
         else{
-          let is_valid =  DBCheckCredentialsAccount(account) 
-          if(is_valid)
-            res.write("login successful")
-          else
-            res.write("wrong password")
+          DBCheckCredentialsAccount(account)
+          .then((account_validaton)=>{
+            if(account_validaton == -1){
+              res.write("login error")
+              res.end()
+            }
+            else{
+              res.write(JSON.stringify(account_validaton))
+              res.end()
+            }
+          })
         }    
       })
     }
     if(req.method == 'OPTIONS') {
       res.writeHead(200, headers)
+      res.end()
     }
-    res.end()
 })
 server.listen(process.env.PORT)
 console.log(`server listening port ${process.env.PORT}`)
+process.on('SIGINT', () => {
+  console.log('Log that Ctrl + C has been pressed')
+  mongoose.connection.close()
+  process.exit()
+})

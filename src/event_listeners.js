@@ -378,8 +378,8 @@ const el = (() => {
     */
     const footerClickEventDelegation = (e) => {
         if(e.target){
-            if(e.target.matches("#footer-fetch")){
-                clickFetch(e)
+            if(e.target.matches("#footer-notification")){
+                clickNotification()
                 return
             }
             if(e.target.matches("#footer-save")){
@@ -392,23 +392,25 @@ const el = (() => {
             }
         }
     }
-    async function  clickFetch(e){
-        console.log("fetching...")
-        const url = new URL("http://localhost:8080")
+    async function  clickNotification(){
+        const username = "l"//who am i?
+        const url = new URL(`http://localhost:8080/${username}`)
         fetch(url, {
             mode:'cors',
-            method: 'POST',
-            body : JSON.stringify({
-                group_name: "UN GRUPPO",
-                members: ["MEMBRO","SECONDO"],
-                events: ["NOMEEV"],
+            method: 'GET',
+        })
+        .then((res)=>{
+            return res.text()
+        })
+        .then((string) => {
+            let invite = JSON.parse(string)
+            let events_invite_arr = invite.events
+            events_invite_arr.forEach((i)=>{
+                classes.task_array.push(i)
+                let new_group = new classes.Group(i.group_title,i.members)
+                if(classes.group_array.indexOf(new_group) < 0)
+                    classes.group_array.push(new_group)
             })
-        })
-        .then((response)=>{
-            return response.text()
-        })
-        .then((value) => {
-            console.log(value)
         })
     }
     function clickSave (){
@@ -442,8 +444,8 @@ const el = (() => {
                 group_name: group_to_del.group_name,
             })
         })
-        .then((response)=>{
-            return response.text()
+        .then((res)=>{
+            return res.text()
         })
         .then((value) => {
             console.log(value)
