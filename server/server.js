@@ -72,10 +72,10 @@ const DBEnrollAccount = async (new_account) =>{
   try{
     let flag = await Account.findOne({email: new_account.email})
     if(flag)
-      return -1
+      return -3
     flag = await Account.findOne({username: new_account.username})
     if(flag)
-      return -1
+      return -2
     await Account.create(new_account)
     return 0
   } catch (error) {console.log(error)}
@@ -83,10 +83,11 @@ const DBEnrollAccount = async (new_account) =>{
 const DBCheckCredentialsAccount = async (account) =>{
   try{
     db_account = await Account.findOne({email: account.email})
+    if(!db_account)
+      return -2
     if(db_account.password == account.password)
       return db_account
-    else
-      return -1
+    return -1
   } catch (error) {console.log(error)}
 }
 
@@ -117,15 +118,18 @@ let server = http.createServer((req,res) => {
       }
     if (req.method == 'GET') {
       res.writeHead(200, headers)
-
       let member = req.url.slice(1);
       DBFindGroupByMember(member)
       .then((arr_matches)=>{
-        arr_matches.forEach((istance)=>{
-          res.write(JSON.stringify(istance))
-        })
+        if(arr_matches){
+          console.log(arr_matches)
+          arr_matches.forEach((istance)=>{
+          res.write(JSON.stringify(istance))})
+        }
+        else
+          res.write(JSON.stringify({}))
         res.end()
-      })
+        })
     }
     if (req.method == 'DELETE') {
       res.writeHead(200, headers)
@@ -152,10 +156,10 @@ let server = http.createServer((req,res) => {
           delete account.enrollement
           DBEnrollAccount(account)
           .then((flag)=>{
-            if(flag == -1)
-              res.write("email or username already used")
-            else
-              res.write("registration ok")
+            if(flag == -2)
+              res.write("2")
+            if(flag == -3)
+              res.write("3")
             res.end()
           })
         }
@@ -163,13 +167,17 @@ let server = http.createServer((req,res) => {
           DBCheckCredentialsAccount(account)
           .then((account_validaton)=>{
             if(account_validaton == -1){
+              res.write("4")
+              res.end()
+              return
+            }
+            if(account_validaton == -2){
               res.write("login error")
               res.end()
+              return
             }
-            else{
-              res.write(JSON.stringify(account_validaton))
-              res.end()
-            }
+            res.write(JSON.stringify(account_validaton))
+            res.end()
           })
         }    
       })

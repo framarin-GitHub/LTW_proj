@@ -307,39 +307,6 @@ const el = (() => {
                 builder.buildGrid(array_filtered,true)
                 return
             }
-            if(e.target.matches("#header-enroll")){
-                const enroll_div = helpers.factoryHtmlElement('div','hook','enroll-div','card text-center')
-                let enroll_form = document.createElement('form')
-                enroll_form.setAttribute('id', 'enroll-form')
-                enroll_form.addEventListener('submit', (e)=>{e.preventDefault()})
-                enroll_div.append(enroll_form)
-                enroll_form.classList.add('form')
-                
-                helpers.factoryHtmlElement('div', `enroll-form`, `enroll-form-username-div`, 'form-group')
-                const username_lbl = helpers.factoryHtmlElement('label', `enroll-form-username-div`, `enroll-form-username-lbl`, 'label')
-                username_lbl.setAttribute('for','username')
-                helpers.setTextContentById(`enroll-form-username-lbl`,'username')
-                const input_username = helpers.factoryHtmlElement('input', `enroll-form-username-div`, `enroll-form-username-input`, 'input')
-                input_username.setAttribute('type', 'text')
-                input_username.setAttribute('name','username')
-            
-                helpers.factoryHtmlElement('div', `enroll-form`, `enroll-form-password-div`, 'form-group')
-                const password_lbl = helpers.factoryHtmlElement('label', `enroll-form-password-div`, `enroll-form-password-lbl`, 'label')
-                password_lbl.setAttribute('for','password')
-                helpers.setTextContentById(`enroll-form-password-lbl`,'password')
-                const input_password = helpers.factoryHtmlElement('input', `enroll-form-password-div`, `enroll-form-password-input`, 'input')
-                input_password.setAttribute('type', 'password')
-                input_password.setAttribute('name','password')
-
-                const submit_button = document.createElement('button')
-                submit_button.setAttribute('id', `enroll-form-submit`)
-                submit_button.setAttribute('class', `btn btn-secondary submit`)    
-                submit_button.setAttribute('form',`enroll-form`)
-                //submit_button.addEventListener('click', submitEnroll)
-                enroll_form.append(submit_button)
-                helpers.setTextContentById(`enroll-form-submit`,'register')
-                return
-            }
             if(e.target.matches("#header-li-5,#header-list-a-5")){
                 let today_array = classes.task_array.filter((t) => { 
                     if(helpers.checkDateIsToday(t))
@@ -393,8 +360,10 @@ const el = (() => {
         }
     }
     async function  clickNotification(){
-        const username = "l"//who am i?
-        const url = new URL(`http://localhost:8080/${username}`)
+        const user = sessionStorage.getItem("user")
+        if(!user)
+            return
+        const url = new URL(`http://localhost:8080/${user}`)
         fetch(url, {
             mode:'cors',
             method: 'GET',
@@ -403,8 +372,13 @@ const el = (() => {
             return res.text()
         })
         .then((string) => {
+            if(!string)
+                return
             let invite = JSON.parse(string)
             let events_invite_arr = invite.events
+            let number_not = events_invite_arr.length
+            let footer_span = document.getElementById("footer-span")
+            footer_span.textContent = number_not
             events_invite_arr.forEach((i)=>{
                 classes.task_array.push(i)
                 let new_group = new classes.Group(i.group_title,i.members)

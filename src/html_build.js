@@ -87,11 +87,15 @@ function headerBuilder(){
     helpers.setTextContentById('header-list-a-4','Groups')
     const header_ul_dropdown = helpers.factoryHtmlElement('ul','header-li-4','header-ul-dropdown','dropdown-menu')
 
+    let user = sessionStorage.getItem("user")
     const header_div2 = helpers.factoryHtmlElement('div','header-nav','header-div-2','container-fluid bg-dark')
-    const header_sign_in = helpers.factoryHtmlElement('button', 'header-div-2', 'header-sign-in', 'btn btn-outline-light')
-    helpers.setTextContentById('header-sign-in','sign in')
-    const header_enroll = helpers.factoryHtmlElement('button', 'header-div-2', 'header-enroll', 'btn btn-dark')
-    helpers.setTextContentById('header-enroll','enroll')
+    const header_account_a = helpers.factoryHtmlElement('a', 'header-div-2', 'header-account-a', '')
+    if(user){
+        helpers.setTextContentById('header-account-a',`${user}`)
+    }
+    else{
+        helpers.setTextContentById('header-account-a','create your account')
+    }
 
 }
 
@@ -102,18 +106,23 @@ function footerBuilder(){
     footer_nav.setAttribute('class', 'navbar navbar-expand-lg navbar-dark bg-dark')
     footer_nav.addEventListener('click', el.footerClickEventDelegation)
     parent.append(footer_nav)
-    const header_clear = helpers.factoryHtmlElement('button', 'footer-nav', 'footer-clear', 'btn btn-dark')
+    helpers.factoryHtmlElement('button', 'footer-nav', 'footer-clear', 'btn btn-dark')
     helpers.setTextContentById('footer-clear','clear')
-    const header_save = helpers.factoryHtmlElement('button', 'footer-nav', 'footer-save', 'btn btn-dark')
+    helpers.factoryHtmlElement('button', 'footer-nav', 'footer-save', 'btn btn-dark')
     helpers.setTextContentById('footer-save','save')
-    const header_fetch = helpers.factoryHtmlElement('button', 'footer-nav', 'footer-notification', 'btn btn-dark')
-    helpers.setTextContentById('footer-notification','notification')
+    helpers.factoryHtmlElement('button', 'footer-nav', 'footer-notification', 'btn btn-dark')
+    helpers.setTextContentById('footer-notification','download invites')
+    helpers.factoryHtmlElement('span', 'footer-notification', 'footer-span', 'badge')
+
 }
 /*
 display the events card based on the given array
 */
 function buildGrid(task_array_to_build,group_page = false){
     helpers.deleteAllChildrenById('central-div-grid')
+    let notification = document.getElementById("footer-span")
+    if(notification)
+        notification.textContent = ""
     let c = 0
     buildDropdown()
     if(group_page){
@@ -158,9 +167,10 @@ function buildGroupLatBar(group_title){
         helpers.setTextContentById(`lat-bar-member-${counter}`,`${m}`)
         counter++
     }
-    helpers.factoryHtmlElement('button','lat-bar-div','lat-bar-push-button','btn btn-secondary')
+    helpers.factoryHtmlElement('div','lat-bar-div','lat-bar-button-div',)
+    helpers.factoryHtmlElement('button','lat-bar-button-div','lat-bar-push-button','btn btn-secondary')
     helpers.setTextContentById('lat-bar-push-button', 'push')
-    helpers.factoryHtmlElement('button','lat-bar-div','lat-bar-delete-button','btn btn-secondary')
+    helpers.factoryHtmlElement('button','lat-bar-button-div','lat-bar-delete-button','btn btn-secondary')
     helpers.setTextContentById('lat-bar-delete-button', 'delete')
 }
 

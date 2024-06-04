@@ -16,6 +16,9 @@
 #header-ul{
     width: 100%;
 }
+#header-account-a{
+    color: white;
+}
 #header-div-2{
     width: fit-content;
     flex: 0 0 auto;
@@ -24,9 +27,12 @@
     min-height: 50px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 5%;
     flex: 1 0 100%;
     padding: 100px;
     background-color: lightgray;
+    overflow: scroll;
     
     transition: background-color;
     transition-duration: 2s;
@@ -45,9 +51,13 @@ button > .icon{
     height: auto;
 }
 #central-div-grid > .card{
-    width: 20rem;
-    height: 20rem; 
+    width: 25rem;
+    height: 25rem; 
     transition: box-shadow 1s ease-out;
+}
+.card-title{
+    font-weight: bold;
+    font-size: x-large;
 }
 .card-body > p:first-of-type{
     max-height: 100px;
@@ -142,19 +152,32 @@ button.isNotDone {
 }
 
 #lat-bar-div{
-    background-color: rgb(226, 207, 171);
-    padding: 10px;
+    background-color: rgb(138, 243, 126);
+    padding: 20px;
     margin-right: 10px;
     margin-left: -100px;
     margin-top: -100px;
-    height: fit-content;
+    height: 50%;
 }
-
-#enroll-div{
+#lat-bar-div-p-title{
+    font-weight: bold;
+    font-size: large;
+}
+#lat-bar-delete-button{
+    background-color: rgb(255, 105, 105);
+}
+#lat-bar-button-div{
+    margin-top: 50%;
+}
+#footer-notification{
+    position: relative;
+}
+#footer-nav .badge {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000;
-    padding: 10px;
-}
+    top: -9px;
+    right: -9px;
+    padding: 3px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+  }

@@ -77,7 +77,7 @@ btn_login.addEventListener("click", (loggo))
 btn_register.addEventListener("click", (registrazione))
 
 function vai_alla_app(){
-    window.open("app.html"," _blank"); 
+    window.open("app.html"," _self"); 
 }
 
 async function loggo(){
@@ -86,6 +86,8 @@ async function loggo(){
     let password=document.querySelector('.pass').value;
     let email=document.querySelector('.mail').value;
     let id =0;
+    console.log(password)
+    console.log(email)
     fetch(url,{
         mode:'cors',
         method: 'PUT',
@@ -134,7 +136,6 @@ async function registrazione(){
     let password=document.getElementById('pass').value;
     let email=document.getElementById('mail').value;
     let id =1;
-    console.log(email);
     fetch(url, {
         mode:'cors',
         method:'PUT',
