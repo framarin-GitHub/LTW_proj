@@ -38,6 +38,8 @@ function headerBuilder(){
     header_nav.addEventListener('click', el.headerClickEventDelegation)
     parent.append(header_nav)
     
+    const header_img = helpers.factoryHtmlElement('img','header-nav','header-img','')
+    header_img.setAttribute('src', 'https://cdn.pixabay.com/photo/2021/02/02/14/54/icon-5974270_1280.png ')
     const header_div1 = helpers.factoryHtmlElement('div','header-nav','header-div-1','container-fluid bg-dark')
     const header_a = helpers.factoryHtmlElement('a','header-div-1','header-a','navbar-brand')
     header_a.setAttribute('href','index.html')
@@ -158,9 +160,10 @@ function buildGroupLatBar(group_title){
     const lat_bar = document.createElement('div')
     lat_bar.setAttribute('id', 'lat-bar-div')
     lat_bar.addEventListener('click', el.latBarClickEventDelegation)
+    lat_bar.classList.add('border', 'border-secondary')
     parent.append(lat_bar)
     let counter = 0
-    helpers.factoryHtmlElement('p','lat-bar-div','lat-bar-p-title')
+    helpers.factoryHtmlElement('h1','lat-bar-div','lat-bar-p-title','card-title border-bottom border-secondary')
     helpers.setTextContentById('lat-bar-p-title', `${group_target[0].group_title}`)
     for(let m of group_target[0].members[0]){
         helpers.factoryHtmlElement('div', 'lat-bar-div',`lat-bar-member-${counter}`)
@@ -169,9 +172,15 @@ function buildGroupLatBar(group_title){
     }
     helpers.factoryHtmlElement('div','lat-bar-div','lat-bar-button-div',)
     helpers.factoryHtmlElement('button','lat-bar-button-div','lat-bar-push-button','btn btn-secondary')
-    helpers.setTextContentById('lat-bar-push-button', 'push')
+    helpers.setTextContentById('lat-bar-push-button', 'send invites')
     helpers.factoryHtmlElement('button','lat-bar-button-div','lat-bar-delete-button','btn btn-secondary')
     helpers.setTextContentById('lat-bar-delete-button', 'delete')
+    helpers.factoryHtmlElement('button','lat-bar-div','lat-bar-collapse','btn btn-primary')
+    helpers.setTextContentById('lat-bar-collapse', 'collapse')
+
+    helpers.factoryHtmlElement('button','central-div-grid','lat-bar-show','btn btn-primary') 
+    helpers.setTextContentById('lat-bar-show', 'show >')
+    
 }
 
     const html_build = () => {

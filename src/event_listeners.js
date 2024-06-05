@@ -17,7 +17,7 @@ const el = (() => {
         form.setAttribute('id', `${id_form}`)
         form.addEventListener('submit', (e)=>{e.preventDefault()})
         parent.append(form)
-        form.classList.add('form')
+        form.classList.add('form','border','border-secondary')
 
         helpers.factoryHtmlElement('div', `${id_form}`, `${id_form}-group-div`, 'form-floating')
         const input_group_title = helpers.factoryHtmlElement('input', `${id_form}-group-div`, `${id_form}-group-input`, 'input form-control')
@@ -247,6 +247,9 @@ const el = (() => {
                 helpers.factoryTaskCard(index,task,card_element.id)
                 return
             }
+            if(e.target.matches("#lat-bar-show")){
+                $(`#lat-bar-div`).toggleClass('lat-bar-animation')
+            }
         }
     }    
     /*
@@ -287,10 +290,12 @@ const el = (() => {
             }
             if(e.target.matches("#header-li-2,#header-list-a-2")){
                 const create_group_form = createGroupForm('central-div-grid','create-group-form')
+
                 return
             }
             if(e.target.matches("#header-li-3,#header-list-a-3")){
                 const create_new_task_form = helpers.factoryTaskForm('central-div-grid','create-new-task-form',null)
+                create_new_task_form.setAttribute('class','border border-secondary')
                 const submit_button = document.createElement('button')
                 submit_button.setAttribute('id', 'create-new-task-form-submit-button')
                 submit_button.setAttribute('class', `btn btn-secondary submit`)    
@@ -316,7 +321,7 @@ const el = (() => {
             }
             if(e.target.matches("#header-li-6,#header-list-a-6")){
                 helpers.deleteAllChildrenById('central-div-grid')
-                let between_date_form = helpers.factoryHtmlElement('form', 'central-div-grid','between-date-form', 'form')
+                let between_date_form = helpers.factoryHtmlElement('form', 'central-div-grid','between-date-form', 'form border border-secondary')
                 let label_start = helpers.factoryHtmlElement('label','between-date-form','between-date-label-start')
                 label_start.setAttribute('for','start')
                 helpers.setTextContentById('between-date-label-start','start from')
@@ -463,6 +468,9 @@ const el = (() => {
                 group_to_del.deleteGroup()
                 builder.buildGrid(classes.task_array)
                 return
+            }
+            if(e.target.matches("#lat-bar-collapse")){
+                $(`#lat-bar-div`).toggleClass('lat-bar-animation');
             }
         }
     }
