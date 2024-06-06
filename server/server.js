@@ -8,9 +8,6 @@ mongoose.set("strictQuery", false)
 const user = process.env.USERNAME
 const psw = process.env.PASSWORD
 
-
-
-
 const uri = `mongodb+srv://${user}:${psw}@dbscheduleassistantapp.crk25lh.mongodb.net/?retryWrites=true&w=majority&appName=DBScheduleAssistantApp`
 
 
@@ -97,7 +94,6 @@ let server = http.createServer((req,res) => {
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT',
         'Access-Control-Max-Age': 2592000, 
       }
-    console.log(req.method)
     if (req.method == 'POST') {
         res.writeHead(200, headers)
         res.write('ADD OR UPDATE GROUP')

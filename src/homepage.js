@@ -2,6 +2,12 @@ import { id } from 'date-fns/locale';
 import './style_homepage.scss'
 import $, { ajax } from 'jquery'
 
+let forms = document.querySelectorAll('form')
+forms.forEach((form)=>{
+    form.addEventListener('submit', (e)=>{e.preventDefault()})
+})
+
+
 const wrapper = document.querySelector('.wrapper');
 const login_link = document.querySelector('.login-link');
 const register_link = document.querySelector('.register-link');
@@ -82,7 +88,7 @@ function vai_alla_app(){
 
 async function loggo(){
     console.log("sto loggando.....");
-    const url=new URL("http://localhost:8080/");
+    const url=new URL("http://localhost:8080");
     let password=document.querySelector('.pass').value;
     let email=document.querySelector('.mail').value;
     let id =0;
@@ -131,7 +137,7 @@ async function loggo(){
 
 async function registrazione(){
     console.log("Registrazione account .....");
-    const url=new URL("http://localhost:8080/");
+    const url=new URL("http://localhost:8080");
     let username=document.querySelector('.username').value;
     let password=document.getElementById('pass').value;
     let email=document.getElementById('mail').value;

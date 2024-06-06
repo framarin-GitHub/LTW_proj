@@ -24,6 +24,12 @@
 }
 #header-account-a{
     color: white;
+    position: relative;
+}
+#header-button-disconnect{
+    position: absolute;
+    bottom: -30px;
+    left: 0;
 }
 #header-div-2{
     width: fit-content;
@@ -120,6 +126,7 @@ classes for transformation
     height: 20em;
     width: 20em;
     align-items: center;
+    background-color: rgb(138, 243, 126);
 }
 .form .description-input{
     min-height: 70px;

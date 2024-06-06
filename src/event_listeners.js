@@ -342,6 +342,20 @@ const el = (() => {
                 helpers.setTextContentById('between-date-form-submit-button','done') 
                 return  
             }
+            if(e.target.matches("#header-account-a")){
+                let user = sessionStorage.getItem("user")
+                if(user){
+                    helpers.factoryHtmlElement('button','header-account-a','header-button-disconnect','btn btn-primary')
+                    helpers.setTextContentById('header-button-disconnect','exit')
+                }
+            }
+            if(e.target.matches("#header-button-disconnect")){
+                let user = sessionStorage.getItem("user")
+                if(user){
+                    sessionStorage.clear()
+                }
+                location.reload()
+            }
         }
     }
     /*
