@@ -82,7 +82,7 @@ function vai_alla_app(){
 
 async function loggo(){
     console.log("sto loggando.....");
-    const url=new URL("http://localhost:8080");
+    const url=new URL("http://localhost:8080/");
     let password=document.querySelector('.pass').value;
     let email=document.querySelector('.mail').value;
     let id =0;
@@ -101,7 +101,6 @@ async function loggo(){
         return response.text()
     }) 
     .then((account_validation) => {
-        console.log("stampa valore dal server: ")
         console.log(account_validation)
         if(account_validation != "login error"){
         wrapper.classList.remove("active-popup");
@@ -127,11 +126,12 @@ async function loggo(){
 
         }
     })
+    .catch(e => console.log(e))
 }
 
 async function registrazione(){
     console.log("Registrazione account .....");
-    const url=new URL("http://localhost:8080");
+    const url=new URL("http://localhost:8080/");
     let username=document.querySelector('.username').value;
     let password=document.getElementById('pass').value;
     let email=document.getElementById('mail').value;
@@ -147,7 +147,7 @@ async function registrazione(){
         })
     })
     .then((response)=>{
-        return response.text()
+        return response.text() 
     })
     .then((value) => {
         console.log(value)
@@ -175,4 +175,5 @@ async function registrazione(){
             wrapper.classList.remove("active");
         }
     })
+    .catch(e => console.log(e))
 }

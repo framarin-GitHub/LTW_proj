@@ -223,7 +223,6 @@ const el = (() => {
             if(e.target.matches(".card-body , .card-title, .card-text") && !e.target.matches(".card-mini , .mini-title")){
                 let card_id = e.target.id
                 let index = card_id.slice(-1)
-                console.log(active_big_card)
                 if(active_big_card == '' || active_big_card == index){
                     if(active_big_card == index)
                         active_big_card = ''
@@ -385,8 +384,11 @@ const el = (() => {
             let footer_span = document.getElementById("footer-span")
             footer_span.textContent = number_not
             events_invite_arr.forEach((i)=>{
-                classes.task_array.push(i)
-                let new_group = new classes.Group(i.group_title,i.members)
+                let {_id,...task_to_add} = i
+                if(classes.task_array.indexOf(task_to_add) < 0)
+                    classes.task_array.push(task_to_add)
+                let new_group = new classes.Group(i.group_title,invite.members)
+                console.log(new_group)
                 if(classes.group_array.indexOf(new_group) < 0)
                     classes.group_array.push(new_group)
             })

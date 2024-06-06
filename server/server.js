@@ -97,6 +97,7 @@ let server = http.createServer((req,res) => {
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT',
         'Access-Control-Max-Age': 2592000, 
       }
+    console.log(req.method)
     if (req.method == 'POST') {
         res.writeHead(200, headers)
         res.write('ADD OR UPDATE GROUP')
@@ -122,9 +123,9 @@ let server = http.createServer((req,res) => {
       DBFindGroupByMember(member)
       .then((arr_matches)=>{
         if(arr_matches){
-          console.log(arr_matches)
           arr_matches.forEach((istance)=>{
-          res.write(JSON.stringify(istance))})
+            res.write(JSON.stringify(istance))
+          })
         }
         else
           res.write(JSON.stringify({}))

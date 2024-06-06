@@ -165,8 +165,9 @@ function buildGroupLatBar(group_title){
     let counter = 0
     helpers.factoryHtmlElement('h1','lat-bar-div','lat-bar-p-title','card-title border-bottom border-secondary')
     helpers.setTextContentById('lat-bar-p-title', `${group_target[0].group_title}`)
-    for(let m of group_target[0].members[0]){
-        helpers.factoryHtmlElement('div', 'lat-bar-div',`lat-bar-member-${counter}`)
+    helpers.factoryHtmlElement('h1','lat-bar-div','lat-bar-ul','')
+    for(let m of group_target[0].members){
+        helpers.factoryHtmlElement('li', 'lat-bar-ul',`lat-bar-member-${counter}`)
         helpers.setTextContentById(`lat-bar-member-${counter}`,`${m}`)
         counter++
     }

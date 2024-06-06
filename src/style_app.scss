@@ -166,6 +166,7 @@ button.isNotDone {
     left: 0;
     z-index: 1000;
 }
+
 .lat-bar-animation{
     animation: collapse 2s both;
     @keyframes collapse {
@@ -187,9 +188,11 @@ button.isNotDone {
     z-index: 0;
     color: black;
 }
-#lat-bar-div-p-title{
+#lat-bar-p-title{
+    width: 100%;
+    padding: 10px;
     font-weight: bold;
-    font-size: large;
+    font-size: x-large;
 }
 #lat-bar-delete-button{
     background-color: rgb(255, 105, 105);
