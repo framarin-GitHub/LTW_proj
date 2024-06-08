@@ -1,60 +1,104 @@
 @import "~bootstrap/scss/bootstrap";
 
+body,html{
+    margin: auto;
+    padding: 0px;
+    overflow-x: auto;
+    min-width:100%;
+    min-height:100%;
+}
 #header-nav2{
-    width: 100%;
     height: 60px;
+    width: 100%;
     position: sticky;
     top: 0;
     z-index: 1;
     padding-left: 25px;
+    display: flex;
+}
+#coso{
+    width: auto;
+    height: auto;
+    float: right;
+}
+.tenda{
+    float: right;
+    width: 1.5625em;
+    height: 1.5625em;
+    visibility: hidden;
+    //width: auto;
+    //height: auto;
 }
 .calendario{
-    width: 600px;
+    //width: 600px;
+    width:31.25%;
     height: 315px;
     margin-top: 20px;
+    float: left;
+    //margin: 30px;
+    margin: 1.0417%;
+}
+#tutto_mark{
+    margin-bottom: 20px;
+    margin-left:140px;
+    //height: 8.125em;
+    height: auto;
+    width: 100%;
+    display: grid;
+    //margin: 30px;
 }
 .marchio{
     width: 50px;
     height: 50px;
-    margin-right: 10px;
+    margin-right: 15px;
     margin-left: -10x;
 }
-.sole{
+/*.sole{
     width: 30px;
     height: 30px;
-    margin-left: 700px; ;
+    margin-left: 700px;
+    margin-top: 30px;
     border-radius: 20px 20px 20px 20px;
 }
+*/
 #tasti{
+    //position: relative;
     height: 50px;
     width: 570px;
     position: sticky;
     top: 0;
     z-index: 1;
-    margin-left: 220px;
+    //margin-left: 210px;
+    margin-right: 0px;
+    float: right;
     //844
 }
 #conta{
     margin-left:140px;
+    //padding-block: 8.75rem;
     margin-right:0px;
     width: 100%;
-    height: 345px;
+    //height: 345px;
+    height: 21.5625em;
 }
 #marketing{
-    width: 800px; ;
+    width: 800px;
     margin-top: 30px;
-    font-size: 45px;
+    font-size: 2.8125em;
+    //font-size: 2.34375vh;
     font-weight: bold;
     color: dodgerblue;
-    margin-left: 800px;
+    //margin-left: 800px;
+    margin-left: 41.67%;
 }
 .marketing2{
-    font-size: 45px;
+    font-size: 2.8125em;
     font-weight: bold;
     color: rgb(1, 83, 165);
+    float: left;
 }
 #mark{
-    font-size: 45px;
+    font-size: 2.8125em;
     font-weight: bold;
     color: dodgerblue;
     float: left;
@@ -98,7 +142,8 @@
     color: black;
     background-color:white ;
     border-radius: 10px 10px 10px 10px;
-    margin-right: 5px;
+    margin-right: 2px;
+    margin-left: 2px;
 }
 #registrati:hover{
     background-color: gray;
@@ -138,13 +183,14 @@
     border-bottom-color:white;
     border-bottom-width:1px;
     border-bottom-style:solid;
-    border-collapse: collapse;
+    //border-collapse: collapse;
     font-style:normal;
     font-weight:bold;
     color:white;
     border-radius: 10px 10px 10px 10px;
     width: 228px;
     height: 42px;
+    text-align: center;
 }
 #prova:active{
     background-color:dodgerblue; 
@@ -166,7 +212,10 @@
 #dopo_mark{
     color: gray;
     font-family: Arial, Helvetica, sans-serif;
-    margin-left: 800px;
+    //margin-left: 800px;
+    margin-left: 41.67%;
+    font-size: 1em;
+    margin-bottom:10px;
     width: 800px;
 }
 #dopo_mark:hover{
@@ -208,17 +257,33 @@
     height: 268px;
 }
 .prom{
-    width: 240px; 
-    height: 240px;
+    width: 200px; 
+    height: 75%;
+    max-width: 100%;
     border-radius: 10px 10px 10px 10px;
     margin-left: 0px;
-    margin-right: 300px;
-    margin-top: 10px;
+    margin-right: 22%;
+    margin-top: 0.51%;
     float: right;
 }
 #versioni{
+    font-size:1em;
     color:rgb(51, 49, 49);
     font-family: Arial, Helvetica, sans-serif;
+    float: left;
+    height: auto;
+}
+.testo_inv{
+    display: none;
+    width: 1em;
+    height: 1em;
+    font-size: 1em;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    line-height: 260px;
+    //margin-top: 20px;
+    text-decoration: underline;
 }
 .text{
     color: black;
@@ -317,9 +382,28 @@ transition:0.3ms
     width: 450px;
     height: 240px;
 }
+.col_mobile{
+    display: none;
+    height: 0px;
+    width: 0px;
+}
+.col_mobile_premium{
+    display: none;
+}
+.testo_mobile_premium{
+    display:none;
+}
+.testo_mobile{
+    display: none;
+    height: 0px;
+    width: 0px;
+}
 .row{
     width: 1350px;
     height: 240px;
+}
+.row_mobile{
+    display: none;
 }
 .spunta{
     width: 50px;
@@ -340,8 +424,10 @@ transition:0.3ms
 }
 #abbonamenti{
     width:100%;
-    height:1000px;
+    //height:1000px;
+    height: auto;
     margin-left:140px;
+    margin-top: 5px;
 }
 #fondo{
     margin-left:130px;
@@ -360,7 +446,7 @@ transition:0.3ms
     margin-left: 755px;
 }
 .wrapper{
-    position: relative;
+    position:relative;
     width:400px ;
     height: 440px;
     background: transparent;
@@ -384,7 +470,7 @@ transition:0.3ms
     transform: translateX(-400px);
 }
 .wrapper .form-box.register{
-    position: absolute;
+    position:absolute;
     transition: none;
     transform: translateX(400px);
 }
@@ -404,7 +490,7 @@ transition:0.3ms
     padding: 40px;
 }
 .icon-close{
-    position: absolute;
+    position:absolute;
     top: 0;
     right: 0;
     width: 45px;
@@ -468,7 +554,7 @@ transition:0.3ms
     color:rgba(31, 25, 25, 0.774);
     line-height: 57px;
 }
-#header-nav2 .btn{
+.btn{
     width: 100%;
     height: 45px;
     background: rgba(31, 25, 25, 0.774);
@@ -513,3 +599,852 @@ transition:0.3ms
 .messaggio0.active{
     visibility: visible;
 }
+
+@media screen and (max-width:768px){
+    #header-nav2{
+        height: auto;
+        width: 100%;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding-left: 25px;
+        display: flex;
+    }
+    #tasti{
+        display:none;
+        //width: auto;
+        //height: 35px;
+        //margin:2px 2px 2px 2px;
+        //position: sticky;
+        //top: 0;
+        //z-index: 0;
+   }
+   .tenda{
+    //display: block;
+    visibility: visible;
+    float: right;
+    margin-bottom: 15px;
+}   
+#tasti.active{
+    display: block;
+    width: 95%;
+    height: auto;
+    /*height: 50px;
+    width: 570px;*/
+    position: sticky;
+    top: 0;
+    z-index: 0;
+    margin-left: 0px;
+}
+.accesso{
+    text-align: center;
+    color: white;
+    background-color: dodgerblue;
+    border-left-color:blue;
+    border-left-width:1px;
+    border-left-style:solid;
+    border-right-color:blue;
+    border-right-width:1px;
+    border-right-style:solid;
+    border-top-color:blue;
+    border-top-width:1px;
+    border-top-style:solid;
+    border-bottom-color:blue;
+    border-bottom-width:1px;
+    border-bottom-style:solid;
+    border-radius: 0px 0px 0px 0px;
+    width: 100%;
+    height: auto;
+    margin-right: 0px;
+    font-size: 0.8em;
+    visibility: visible;
+}
+#registrati{
+    border-left-color:gray;
+    border-left-width:1px;
+    border-left-style:solid;
+    border-right-color:gray;
+    border-right-width:1px;
+    border-right-style:solid;
+    border-top-color:gray;
+    border-top-width:1px;
+    border-top-style:solid;
+    border-bottom-color:gray;
+    border-bottom-width:1px;
+    border-bottom-style:solid;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    color: black;
+    background-color:white ;
+    border-radius: 0px 0px 0px 0px;
+    font-size: 0.8em;
+    visibility: visible;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 1px;
+}
+#prova{
+    text-align: center;
+    border-left-color:white;
+    border-left-width:1px;
+    border-left-style:solid;
+    border-right-color:white;
+    border-right-width:1px;
+    border-right-style:solid;
+    border-top-color:white;
+    border-top-width:1px;
+    border-top-style:solid;
+    border-bottom-color:white;
+    border-bottom-width:1px;
+    border-bottom-style:solid;  
+    //border-collapse: collapse;
+    font-size: 0.8em;
+    font-style:normal;
+    font-weight:bold;
+    color:white;
+    border-radius: 0px 0px 0px 0px;
+    width: 100%;
+    height: auto;
+    visibility: visible;
+    margin-right: 0px;
+}
+    .tenda{
+        //display: block;
+        visibility: visible;
+        float: right;
+        margin-top:15px ;
+        margin-bottom: 15px;
+        margin-right: 20px;
+    }   
+    .calendario{
+        display: none;
+    }
+    #avviso{
+        margin-left: 5px;
+        width: 100%;
+        height: 214.67px;
+    }
+    .prom{
+        display: none;
+    }
+    #conta{
+        margin-left:0px;
+        margin-right:0px;
+        width: 100%;
+        height: auto;
+        text-align: center;
+    }
+    #titolo{
+        font-style: italic;
+        font-weight: bold;
+        font-size: auto;
+    }
+    .wrapper{
+        position:absolute;
+        width: 45% ;
+        height: 70%;
+        background: transparent;
+        border:  2px solid rgba(255,255,255,.5);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 0 24px rgba(0,0,0,.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        transform: scale(0);
+        transition: transform .5s ease, height .2s ease;
+        top: 50%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -100px;
+    }
+    .marketing2{
+        font-size: 1.875em;
+        font-weight: bold;
+        color: rgb(1, 83, 165);
+    }
+    #marketing{
+        //width: 800px; 
+        width: 100%;
+        margin-top: 0.625%;
+        font-size: 1.875em;
+        font-weight: bold;
+        color: dodgerblue;
+        margin-left: 0.3125%;
+        //text-align: center;
+    }
+    #mark{
+        //margin-left:1.25em;
+        text-align: center;
+        font-size: 1.875em;
+        font-weight: bold;
+        width: 100%;
+        color: dodgerblue;
+        float: left;
+    }
+    #dopo_mark{
+        text-align: center;
+        color: gray;
+        font-family: Arial, Helvetica, sans-serif;
+        //margin-left: 150px;
+        margin-left: 15.625%;
+        //width: 500px;
+        width: 100%;
+    }
+    .marchio{
+        text-align: center;
+        width: 40px;
+        height: 40px;
+        margin-right: 1px;
+        margin-bottom: 5px;
+        //margin-left: -40x;
+        float:left;
+    }
+    .sole{
+        display: none;
+        width: 30px;
+        height: 30px;
+        margin-left: 150px; ;
+        border-radius: 20px 20px 20px 20px;
+    }
+   #tasti{
+        display:none;
+   }
+    
+    #sveglia{
+        text-align: center;
+        color: gray;
+        font-family: Arial, Helvetica, sans-serif;
+        float: left;
+    }
+    #abbonamenti{
+        width:100%;
+        //height:480px;
+        height: auto;
+        margin-left:3px;
+    }
+    #tutto_mark{
+        margin-left: 0px;
+        width: 100%;
+        height: auto;
+        text-align: center;
+    }
+    #fondo{
+        margin-left:5px;
+        margin-right:0px;
+        text-align: center;
+        width: 100%;
+        height: auto;
+    }
+    .soldi{
+        margin-top: 15px;
+        font-weight: bold;
+        color: black;
+        font-size: 15px;
+    }
+    .dispositivi{
+        width: 100px;
+        height: 100px;
+        margin-left: 0px;
+    }
+}
+@media screen and (max-width:1733px) {
+    .prom{
+        display: none;
+    }
+    
+}
+@media screen and (min-width:769px) and (max-width:1550px){
+    #conta{
+        margin-left: 5px;
+    }
+    #avviso{
+        margin-left: 5px;
+    }
+    #abbonamenti{
+        margin-left: 5px;
+    }
+    #tutto_mark{
+        margin-left: 5px;
+    }
+    #fondo{
+        margin-left: 5px;
+        text-align: center;
+    }
+    #marketing{
+        margin-left: 450px;
+    }
+    #dopo_mark{
+        margin-left: 450px;
+    }
+    #tasti{
+        margin-left: 0px;
+        margin-right: 0px;
+        padding: 0px;
+    }
+    #registrati{
+        margin-right: 0px;
+    }
+    .dispositivi{
+        margin-left:0;
+        text-align: center;
+    }
+}
+@media screen and (max-width:1200px){
+    .calendario{
+        display: none;
+    }
+    #marketing{
+        margin-left: 0px;
+    }
+    #dopo_mark{
+        margin-left: 0px;
+    }
+    
+}
+@media  screen and (min-width:768px) and (max-width:1390px) {
+    #abbonamenti{
+        width:100%;
+        //height:480px;
+        height: auto;
+        //margin-left:3px;
+    }
+    .text{
+        margin-bottom: 0px;
+        color: black;
+        font-family: Arial, Helvetica, sans-serif;
+        text-decoration: underline;
+        font-size: auto;
+        width: auto;
+        height: auto;
+    }
+    .text1{
+        color: black;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        margin-bottom: 0px;
+        text-decoration: underline;
+        font-size: auto;
+        width: auto;
+        height: auto;
+    }
+    .text2{
+        margin-top: 60px;
+        color: black;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        text-decoration: underline;
+        text-align: center;
+        font-size: auto;
+        width: auto;
+        height: auto;
+    }
+    .textcol{
+        width: auto;
+        height: auto;
+        color: black;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        line-height: auto;
+        //margin-top: 20px;
+        text-decoration: underline;
+        font-size:auto;
+    }
+    .acquisto{
+        border-radius:10px 10px 10px 10px;
+        border-color:dodgerblue ;
+        color: dodgerblue;
+        background-color: white;
+        //width: 200px;
+        width: 70.67%;
+        height: 40px;
+        position: relative;
+        margin-top:2.158%;
+        margin-left: 20px;
+        text-align: center;
+    }
+    .colsx{
+        //width:450px
+        width: 32.853%;
+        height: 200px;
+        border-color: lightgray;
+        border-width: 2px 1px 1px 2px;
+        border-style: solid;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(215, 228, 233);
+        font-weight: bold;
+    }
+    .coldx{
+        //width: 450px;
+        width: 32.853%;
+        height: 200px;
+        border-color: lightgray;
+        border-width: 1px 1px 1px 1px;
+        border-style: solid;
+        background-color:white;
+    }
+    
+    .col1{
+        //width: 450px;
+        width: 32.853%;
+        height: 200px;
+        border-color: lightgray;
+        border-width: 2px 1px 1px 2px;
+        border-style: solid;
+        border-top-left-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(215, 228, 233);
+    }
+    .col2{
+        //width: 450px;
+        width: 32.853%;
+        height: 200px;
+        border-color: lightgray;
+        border-width: 2px 2px 1px 1px;
+        border-style: solid;
+        border-top-right-radius: 10px;
+        background-color: rgb(215, 228, 233);
+    }
+    .cols{
+        //width: 450px;
+        width: 32.853%;
+        height: 200px;
+    }
+    .row{
+        //width: 1350px;
+        width: auto;
+        height: 200px;
+    }
+    .spunta{
+        //width: 50px;
+        //height: 50px;
+        width: 3.125em;
+        height: 3.125em;
+        position:relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .croce{
+        //text-align: center;
+        //width: 40px;
+        //height: 40px;
+        width: 2.5em;
+        height: 2.5em;
+        position:relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+    @media screen and (max-width:979px) and (min-width:769px) {
+        #header-nav2{
+            height: auto;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            padding-left: 25px;
+            display: flex;
+        }
+        #tasti{
+            display:none;
+            //width: auto;
+            //height: 35px;
+            //margin:2px 2px 2px 2px;
+            //position: sticky;
+            //top: 0;
+            //z-index: 0;
+       }
+       .tenda{
+        //display: block;
+        visibility: visible;
+        float: right;
+        margin-bottom: 15px;
+    }   
+    #tasti.active{
+        display: block;
+        width: 95%;
+        height: auto;
+        /*height: 50px;
+        width: 570px;*/
+        position: sticky;
+        top: 0;
+        z-index: 0;
+        margin-left: 0px;
+    }
+    .accesso{
+        text-align: center;
+        color: white;
+        background-color: dodgerblue;
+        border-left-color:blue;
+        border-left-width:1px;
+        border-left-style:solid;
+        border-right-color:blue;
+        border-right-width:1px;
+        border-right-style:solid;
+        border-top-color:blue;
+        border-top-width:1px;
+        border-top-style:solid;
+        border-bottom-color:blue;
+        border-bottom-width:1px;
+        border-bottom-style:solid;
+        border-radius: 0px 0px 0px 0px;
+        width: 100%;
+        height: auto;
+        margin-right: 0px;
+        font-size: 0.8em;
+        visibility: visible;
+    }
+    #registrati{
+        border-left-color:gray;
+        border-left-width:1px;
+        border-left-style:solid;
+        border-right-color:gray;
+        border-right-width:1px;
+        border-right-style:solid;
+        border-top-color:gray;
+        border-top-width:1px;
+        border-top-style:solid;
+        border-bottom-color:gray;
+        border-bottom-width:1px;
+        border-bottom-style:solid;
+        text-align: center;
+        width: 100%;
+        height: auto;
+        color: black;
+        background-color:white ;
+        border-radius: 0px 0px 0px 0px;
+        font-size: 0.8em;
+        visibility: visible;
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-bottom: 1px;
+    }
+    #prova{
+        text-align: center;
+        border-left-color:white;
+        border-left-width:1px;
+        border-left-style:solid;
+        border-right-color:white;
+        border-right-width:1px;
+        border-right-style:solid;
+        border-top-color:white;
+        border-top-width:1px;
+        border-top-style:solid;
+        border-bottom-color:white;
+        border-bottom-width:1px;
+        border-bottom-style:solid;  
+        //border-collapse: collapse;
+        font-size: 0.8em;
+        font-style:normal;
+        font-weight:bold;
+        color:white;
+        border-radius: 0px 0px 0px 0px;
+        width: 100%;
+        height: auto;
+        visibility: visible;
+        margin-right: 0px;
+    }
+       
+    }
+    @media  screen and (max-width:767px) {
+        .testo_inv{
+            position: relative;
+            height:auto;
+            width: auto;
+            display: block;
+            font-size: 1em;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            line-height:1em;
+            //margin-top: 20px;
+            text-decoration: underline;
+            margin-bottom: 0px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        #abbonamenti{
+            width:100%;
+            //height:480px;
+            height: auto;
+            margin-right: 5px;
+            //margin-left:3px;
+        }
+        .text{
+            display: none;
+            margin-bottom: 0px;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            text-decoration: underline;
+            font-size: auto;
+            width: auto;
+            height: auto;
+        }
+        .text1{
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            margin-bottom: 0px;
+            text-decoration: underline;
+            font-size: auto;
+            width: auto;
+            height: auto;
+        }
+        .text2{
+            margin-top: 60px;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-decoration: underline;
+            text-align: center;
+            font-size: auto;
+            width: auto;
+            height: auto;
+        }
+        .textcol{
+            display: none;
+            margin-bottom: 0px;
+            position: relative;
+            height: 1em;
+            width: 1em;
+            //width: auto;
+            //height: auto;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            line-height: auto;
+            //margin-top: 20px;
+            text-decoration: underline;
+            font-size:auto;
+        }
+        .acquisto{
+            display: flex;
+            border-radius:10px 10px 10px 10px;
+            border-color:dodgerblue ;
+            color: dodgerblue;
+            background-color: white;
+            //width: 200px;
+            width: 70.67%;
+            height: 40px;
+            position: relative;
+            margin-top:2.158%;
+            margin-left: 30px;
+            text-align: center;
+        }
+        .colsx{
+            //width:450px
+            //width: 32.853%;
+            //height: 200px;
+            width: 0px;
+            height: 0px;
+            border-color: lightgray;
+            border-width: 0px 0px 0px 0px;
+            border-style: solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(215, 228, 233);
+            font-weight: bold;
+        }
+        .coldx{
+            //width: 450px;
+            width:  47.253%;
+            height: 200px;
+            border-color: lightgray;
+            border-width: 1px 1px 1px 1px;
+            border-style: solid;
+            background-color:white;
+        }
+        
+        .col1{
+            //width: 450px;
+            width: 47.253%;
+            height: 200px;
+            border-color: lightgray;
+            border-width: 2px 1px 1px 2px;
+            border-style: solid;
+            border-top-left-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(215, 228, 233);
+        }
+        .col2{
+            //width: 450px;
+            width:  47.253%;
+            height: 200px;
+            border-color: lightgray;
+            border-width: 2px 2px 1px 1px;
+            border-style: solid;
+            border-top-right-radius: 10px;
+            background-color: rgb(215, 228, 233);
+        }
+        .cols{
+            //width: 450px;
+            //width: 32.853%;
+            //height: 200px;
+            width: 0px;
+            height: 0px;
+        }
+        .row{
+            //width: 1350px;
+            width: auto;
+            height: 200px;
+        }
+        .spunta{
+            display: none;
+            //width: 50px;
+            //height: 50px;
+            width: 3.125em;
+            height: 3.125em;
+            position:relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .croce{
+            display: none;
+            //text-align: center;
+            //width: 40px;
+            //height: 40px;
+            width: 2.5em;
+            height: 2.5em;
+            position:relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        
+    }
+
+    @media screen and (max-width:437px) {
+        .row_mobile{
+            display: block;
+            width:auto;
+            height:auto;
+        }
+        .tenda{
+            display:none;
+            visibility: visible;
+            float: right;
+            margin-bottom: 15px;
+        }   
+        #tasti{
+            display: block;
+            width: 95%;
+            height: auto;
+            /*height: 50px;
+            width: 570px;*/
+            position: sticky;
+            top: 0;
+            z-index: 0;
+            margin-left: 0px;
+        }
+        #abbonamento{
+            display: block;
+        }
+        .col_mobile{
+            //width: 450px;
+            display: block;
+            width:  98%;
+            height: 300px;
+            border-color: lightgray;
+            border-width: 2px 2px 2px 2px;
+            border-style: solid;
+            border-top-right-radius: 10px;
+            background-color: rgb(215, 228, 233);
+        }
+        .testo_mobile{
+            position: relative;
+            height:auto;
+            width: auto;
+            display: block;
+            font-size: 1em;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            line-height:1em;
+            //margin-top: 20px;
+            text-decoration: underline;
+            margin-bottom: 0px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .col_mobile_premium{
+            //width: 450px;
+            display: block;
+            width:  98%;
+            height: 300px;
+            border-color: blue;
+            box-shadow: 0 0 0 2px blue;
+            border-width: 2px 2px 1px 1px;
+            border-style: solid;
+            border-top-right-radius: 10px;
+            background-color: rgb(253, 253, 7);
+        }
+        .testo_mobile_premium{
+            position: relative;
+            height:auto;
+            width: auto;
+            display: block;
+            font-size: 1em;
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            line-height:1em;
+            //margin-top: 20px;
+            text-decoration: underline;
+            margin-bottom: 0px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .text1{
+            display: none;
+        }
+        .text2{
+            display: none;
+        }
+        .textcol{
+            display: none;
+        }
+        .col1{
+            display: none;
+        }
+        .col2{
+            display: none;
+        }
+        .coldx{
+            display: none;
+        }
+        .colsx{
+            display: none;
+        }
+        .cols{
+            display: none;
+        }
+        .row{
+            display: none;
+        }
+        
+    }
+    @media  screen and (max-width:520px) {
+        .wrapper{
+            width: auto;
+            height: auto;
+        }
+        
+    }

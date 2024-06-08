@@ -22,7 +22,15 @@ const touch_pasw=document.getElementById('pw')
 const touch_email=document.getElementById('ma')
 const touch_use=document.getElementById('us')
 const touch_mall=document.getElementById('mail')
+const tenda=document.querySelector('.tenda')
+const tasti=document.getElementById('tasti')
 
+tenda.addEventListener("click",()=>{
+    if(num==1){
+        tasti.classList.remove("active");
+    }
+    tasti.classList.add("active")
+})
 touch_mall.addEventListener("click",()=>{
     for(var i=0 ; i<messaggioR.length ; i++){
         messaggioR[i].classList.remove("active");
